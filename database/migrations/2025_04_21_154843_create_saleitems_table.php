@@ -13,8 +13,8 @@ return new class extends Migration
     {
         Schema::create('saleitems', function (Blueprint $table) {
             $table->uuid('id')->primary();
-            $table->unsignedBigInteger('transaction_id');
-            $table->unsignedBigInteger('batch_id');
+            $table->uuid('transaction_id');
+            $table->uuid('batch_id');
             $table->integer('quantity');
             $table->decimal('price_per_unit', 10, 2);
             $table->foreign('transaction_id')->references('id')->on('transactions')->onDelete('cascade');

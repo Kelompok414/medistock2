@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('batches', function (Blueprint $table) {
             $table->uuid('id')->primary();
-            $table->unsignedBigInteger('medicine_id');
+            $table->uuid('medicine_id');
             $table->string('batch_number')->unique();
             $table->integer('quantity');
             $table->date('expiry_date');
