@@ -12,7 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('transactions', function (Blueprint $table) {
-            $table->uuid('id');
+            $table->uuid('id')->primary();
             $table->unsignedBigInteger('user_id');
             $table->decimal('total_price', 10, 2);
             $table->timestamp('transaction_date')->useCurrent();

@@ -12,7 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('batches', function (Blueprint $table) {
-            $table->uuid('id');
+            $table->uuid('id')->primary();
             $table->unsignedBigInteger('medicine_id');
             $table->string('batch_number')->unique();
             $table->integer('quantity');
