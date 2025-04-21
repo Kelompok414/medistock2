@@ -18,6 +18,7 @@ class SaleitemFactory extends Factory
         $qty = $this->faker->numberBetween(1, min(5, $batch->quantity));
 
         return [
+            'id' => $this->faker->uuid(),
             'transaction_id' => Transaction::factory(),
             'batch_id' => $batch->id,
             'quantity' => $qty,
