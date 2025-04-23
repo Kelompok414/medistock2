@@ -5,7 +5,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\KasirController;
 use App\Http\Controllers\NotificationController;
-
+use App\Http\Controllers\TransactionController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -33,3 +33,5 @@ Route::get('/notifikasi', [NotificationController::class, 'index'])->name('notif
 Route::get('/produkkadaluarsa', [NotificationController::class, 'index'])->name('produkkadaluarsa');
 Route::get('/produkhabis', [NotificationController::class, 'index'])->name('produkhabis');
 Route::get('/laporanbulanan', [NotificationController::class, 'index'])->name('laporanbulanan');
+
+Route::resource('transactions', TransactionController::class);
