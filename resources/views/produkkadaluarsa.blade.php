@@ -47,7 +47,7 @@
                 <table class="table" style="background-color: #FFFFFF; border-collapse: separate; border-spacing: 0; width: 100%; min-width: 800px;">
                 <thead>
                     <tr style="background-color: #279B48; color: #FFFFFF;">
-                    <th style="padding: 12px; text-align: center; border-bottom: 4px; border-radius: 16px 0 0 16px; font-weight: 400;"><a href="{{ url('/produkkadaluarsa') }}" style="text-decoration: none; color:white">Semua Notifikasi</a></th>
+                    <th style="padding: 12px; text-align: center; border-bottom: 4px; border-radius: 16px 0 0 16px; font-weight: 400;"><a href="{{ url('/notifikasi') }}" style="text-decoration: none; color:white">Semua Notifikasi</a></th>
                         <th style="padding: 12px; text-align: center; border-bottom: 4px; font-weight: 400; background-color:rgb(159, 198, 170)"><a href="{{ url('/produkkadaluarsa') }}" style="text-decoration: none; color:black">Produk Kadaluarsa</a></th>
                         <th style="padding: 12px; text-align: center; border-bottom: 4px; font-weight: 400;"><a href="{{ url('/produkhabis') }}" style="text-decoration: none; color:white">Produk Habis</a></th>
                         <th style="padding: 12px; text-align: center; border-bottom: 4px; border-radius: 0 16px 16px 0; font-weight: 400;"><a href="#" style="text-decoration: none; color:white">Laporan Bulanan</a></th>
