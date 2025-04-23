@@ -13,7 +13,7 @@
         @vite(['resources/css/app.css', 'resources/js/app.js'])
     </head>
     <body class="font-sans antialiased">
-        <div class="max-h-screen bg-gray-100 flex flex-col">
+        <div class="min-h-screen bg-gray-100 flex flex-col">
             <div class="bg-green-600 shadow">
                 <div class="flex justify-center items-center p-3 px-6">
                     <div class="relative w-1/2">
