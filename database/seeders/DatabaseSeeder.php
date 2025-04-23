@@ -2,38 +2,22 @@
 
 namespace Database\Seeders;
 
+use App\Models\User;
+// use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
-use App\Models\Category;
-use App\Models\Medicine;
-use App\Models\Batch;
-use App\Models\Transaction;
-use App\Models\Saleitem;
-use Spatie\Permission\Models\Role;
-use Spatie\Permission\Models\Permission;
 
 class DatabaseSeeder extends Seeder
 {
-    public function run()
+    /**
+     * Seed the application's database.
+     */
+    public function run(): void
     {
-        $this->call([
-            RolePermissionSeeder::class,
-        ]);
-        Category::factory()->count(5)->create();
-        Medicine::factory()->count(10)->create();
-        Batch::factory()->count(10)->create();
-        Transaction::factory()
-            ->count(10)
-            ->create()
-            ->each(function (Transaction $tx) {
-                $batchIds = Batch::pluck('id')->toArray();
-                $items = rand(1, 5);
+        // User::factory(10)->create();
 
-                for ($i = 0; $i < $items; $i++) {
-                    Saleitem::factory()->create([
-                        'transaction_id' => $tx->id,
-                        'batch_id'       => $batchIds[array_rand($batchIds)],
-                    ]);
-                }
-            });
+        User::factory()->create([
+            'name' => 'Test User',
+            'email' => 'test@example.com',
+        ]);
     }
 }
