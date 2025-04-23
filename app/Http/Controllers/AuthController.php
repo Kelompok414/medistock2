@@ -80,5 +80,27 @@ class AuthController extends Controller
         session()->flush();
         return redirect('/login')->with('success', 'Berhasil logout.');
     }
+
+    public function notifikasi()
+    {
+        // Cek apakah user sudah login
+        if (!session()->has('user_id')) {
+            return redirect('/login')->with('error', 'Silakan login terlebih dahulu.');
+        }
+
+        // Ambil user berdasarkan ID dari session
+        $user = User::find(session('user_id'));
+
+        // Cek apakah user punya role admin atau kasir
+        if (!$user || !$user->hasAnyRole(['admin', 'kasir'])) {
+            abort(403, 'Akses ditolak.');
+        }
+
+        // Jika lolos, tampilkan halaman
+        return view('notifikasi', [
+            'name' => $user->name,
+            'role' => $user->getRoleNames()->first(), // atau session('user_role') jika disimpan manual
+        ]);
+    }
 }
 
