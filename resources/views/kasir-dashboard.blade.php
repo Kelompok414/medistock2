@@ -10,6 +10,9 @@
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 text-gray-900">
                     {{ __("You're logged in!") }} <br>
+                    <a href="{{ route('notifikasi') }}" class="inline-block bg-blue-500 text-black px-4 py-2 rounded hover:bg-blue-600">
+                        Notifikasi
+                    </a>
                 </div>
             </div>
         </div>

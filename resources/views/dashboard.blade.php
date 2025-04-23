@@ -13,7 +13,11 @@
                     <a href="{{ route('manajemen.kasir') }}" class="inline-block bg-blue-500 text-black px-4 py-2 rounded hover:bg-blue-600">
                         Manajemen Kasir
                     </a>
+                    <a href="{{ route('notifikasi') }}" class="inline-block bg-blue-500 text-black px-4 py-2 rounded hover:bg-blue-600">
+                        Notifikasi
+                    </a>
                 </div>
+                
             </div>
         </div>
     </div>
