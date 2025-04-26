@@ -1,18 +1,22 @@
-@props(['nama', 'batch', 'tanggalKadaluarsa', 'sisaHari', 'stok', 'status'])
-
-<tr class="border-b hover:bg-gray-50">
-    <td class="p-3 text-left">{{ $nama }}</td>
-    <td class="p-3 text-left">{{ $batch }}</td>
-    <td class="p-3 text-left">{{ $tanggalKadaluarsa }}</td>
-    <td class="p-3 text-left">{{ $sisaHari }}</td>
-    <td class="p-3 text-left">{{ $stok }}</td>
-    <td class="p-3 text-left">
+<tr class="table-row-hover">
+    <td width="20%" style="padding: 12px; text-align: left; font-size: 15px; vertical-align: middle;">{{ $nama }}</td>
+    <td width="15%" style="padding: 12px; text-align: center; font-size: 15px; vertical-align: middle;">{{ $batch }}</td>
+    <td width="20%" style="padding: 12px; text-align: center; font-size: 15px; vertical-align: middle;">{{ $tanggalKadaluarsa }}</td>
+    <td width="15%" style="padding: 12px; text-align: center; font-size: 15px; vertical-align: middle;">{{ $sisaHari }}</td>
+    <td width="10%" style="padding: 12px; text-align: center; font-size: 15px; vertical-align: middle;">{{ $stok }}</td>
+    <td width="20%" style="padding: 12px; text-align: center; font-size: 15px; vertical-align: middle;">
         @if ($status == 'Kadaluarsa')
-            <span class="px-2 py-1 bg-red-100 text-red-500 rounded-full text-xs">Kadaluarsa</span>
+            <div style="background-color: rgba(237, 30, 40, 0.1); border-radius: 20px; padding: 6px 12px; width: 160px; display: inline-block;">
+                <span style="color: var(--danger); font-weight: normal; font-size: 14px;">Kadaluarsa</span>
+            </div>
         @elseif ($status == 'Akan Kadaluarsa')
-            <span class="px-2 py-1 bg-yellow-100 text-yellow-500 rounded-full text-xs">Akan Kadaluarsa</span>
+            <div style="background-color: rgba(255, 189, 7, 0.1); border-radius: 20px; padding: 6px 12px; width: 160px; display: inline-block;">
+                <span style="color: var(--warning); font-weight: normal; font-size: 14px;">Akan Kadaluarsa</span>
+            </div>
         @else
-            <span class="px-2 py-1 bg-green-100 text-green-500 rounded-full text-xs">Tersedia</span>
+            <div style="background-color: rgba(10, 194, 117, 0.1); border-radius: 20px; padding: 6px 12px; width: 160px; display: inline-block;">
+                <span style="color: var(--success); font-weight: normal; font-size: 14px;">Tersedia</span>
+            </div>
         @endif
     </td>
 </tr>
