@@ -11,10 +11,26 @@
     <div class="row g-3 mb-4">
         @php
         $cards = [
-            ['title' => 'Total Obat', 'value' => $totalObat, 'description' => '25 obat baru'],
-            ['title' => 'Akan Kadaluarsa', 'value' => $akanKadaluarsa, 'description' => 'Dalam 3 bulan'],
-            ['title' => 'Kadaluarsa', 'value' => $kadaluarsa, 'description' => 'Harus dimusnahkan'],
-            ['title' => 'Stok Menipis', 'value' => $stokMenipis, 'description' => 'Perlu pemesanan'],
+            [
+                'title' => 'Total Obat', 
+                'value' => $totalObat, 
+                'description' => $totalObatBaru > 0 ? $totalObatBaru . ' obat baru dalam 30 hari' : 'Tidak ada obat baru'
+            ],
+            [
+                'title' => 'Akan Kadaluarsa', 
+                'value' => $akanKadaluarsa, 
+                'description' => 'Dalam 3 bulan'
+            ],
+            [
+                'title' => 'Kadaluarsa', 
+                'value' => $kadaluarsa, 
+                'description' => 'Harus dimusnahkan'
+            ],
+            [
+                'title' => 'Stok Menipis', 
+                'value' => $stokMenipis, 
+                'description' => 'Perlu pemesanan'
+            ],
         ];
         @endphp
 
@@ -45,7 +61,7 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach ($pengingatKadaluarsa as $item)
+                                @forelse ($pengingatKadaluarsa as $item)
                                 <x-expired-reminder-row
                                     :nama="$item['nama']"
                                     :batch="$item['batch']"
@@ -53,9 +69,18 @@
                                     :sisaHari="$item['sisa_hari']"
                                     :stok="$item['stok']"
                                     :status="$item['status']" />
-                                @endforeach
+                                @empty
+                                <tr>
+                                    <td colspan="6" class="text-center">Tidak ada data pengingat kadaluarsa</td>
+                                </tr>
+                                @endforelse
                             </tbody>
                         </table>
+                    </div>
+                    
+                    <!-- Pagination Links -->
+                    <div class="mt-3 d-flex justify-content-center">
+                        {{ $pengingatKadaluarsaPaginator->links() }}
                     </div>
                 </div>
             </div>
@@ -70,33 +95,33 @@
                     <!-- Notifications List -->
                     <div>
                         <ul class="list-unstyled notification-list">
-                            @foreach ($notifikasiTerbaru as $notif)
+                            @forelse ($notifikasiTerbaru as $notif)
                             @php
                                 $icon = '';
                                 $iconClass = '';
-                                $bgColor = '';
+                                $bgColorClass = '';
 
                                 if (strpos($notif['pesan'], 'Telah Kadaluarsa') !== false) {
                                     $icon = 'x-circle.png';
                                     $iconClass = 'icon-danger';
-                                    $bgColor = 'rgba(237, 30, 40, 0.1)';
+                                    $bgColorClass = 'bg-danger-light';
                                 } elseif (strpos($notif['pesan'], 'Laporan') !== false) {
                                     $icon = 'report.png';
                                     $iconClass = 'icon-black';
-                                    $bgColor = 'var(--light-gray)';
+                                    $bgColorClass = 'bg-light-gray';
                                 } elseif (strpos($notif['pesan'], 'Akan Kadaluarsa') !== false) {
                                     $icon = 'alert-circle.png';
                                     $iconClass = 'icon-warning';
-                                    $bgColor = 'rgba(255, 189, 7, 0.1)';
+                                    $bgColorClass = 'bg-warning-light';
                                 } else {
                                     $icon = 'alert-circle.png';
                                     $iconClass = 'icon-warning';
-                                    $bgColor = 'rgba(255, 189, 7, 0.1)';
+                                    $bgColorClass = 'bg-warning-light';
                                 }
                             @endphp
                             <li class="notification-item mb-3">
                                 <div class="d-flex align-items-start">
-                                    <div class="notification-icon" style="background-color: {{ $bgColor }};">
+                                    <div class="notification-icon {{ $bgColorClass }}">
                                         <img src="{{ asset('assets/images/' . $icon) }}" alt="Notification Icon" 
                                             width="18" height="18" class="{{ $iconClass }}">
                                     </div>
@@ -107,7 +132,13 @@
                                     </div>
                                 </div>
                             </li>
-                            @endforeach
+                            @empty
+                            <li class="notification-item mb-3">
+                                <div class="text-center">
+                                    <p>Tidak ada notifikasi terbaru</p>
+                                </div>
+                            </li>
+                            @endforelse
                         </ul>
 
                         <div class="text-center mt-3">

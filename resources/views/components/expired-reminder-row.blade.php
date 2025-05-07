@@ -1,8 +1,18 @@
+@props(['nama', 'batch', 'tanggalKadaluarsa', 'sisaHari', 'stok', 'status'])
+
 <tr class="table-row-hover">
     <td width="20%" style="padding: 12px; text-align: left; font-size: 15px; vertical-align: middle;">{{ $nama }}</td>
     <td width="15%" style="padding: 12px; text-align: center; font-size: 15px; vertical-align: middle;">{{ $batch }}</td>
     <td width="20%" style="padding: 12px; text-align: center; font-size: 15px; vertical-align: middle;">{{ $tanggalKadaluarsa }}</td>
-    <td width="15%" style="padding: 12px; text-align: center; font-size: 15px; vertical-align: middle;">{{ $sisaHari }}</td>
+    <td width="15%" style="padding: 12px; text-align: center; font-size: 15px; vertical-align: middle;">
+        @if ($sisaHari < 0)
+            <span style="color: var(--danger);">{{ $sisaHari }} hari</span>
+        @elseif ($sisaHari <= 90)
+            <span style="color: var(--warning);">{{ $sisaHari }} hari</span>
+        @else
+            {{ $sisaHari }} hari
+        @endif
+    </td>
     <td width="10%" style="padding: 12px; text-align: center; font-size: 15px; vertical-align: middle;">{{ $stok }}</td>
     <td width="20%" style="padding: 12px; text-align: center; font-size: 15px; vertical-align: middle;">
         @if ($status == 'Kadaluarsa')

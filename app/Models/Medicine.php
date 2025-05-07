@@ -13,4 +13,14 @@ class Medicine extends Model
     public $incrementing = false;
     protected $keyType = 'string';
     protected $fillable = ['id', 'category_id', 'name', 'code', 'dosage', 'description'];
+    
+    public function category()
+    {
+        return $this->belongsTo(Category::class);
+    }
+
+    public function batches()
+    {
+        return $this->hasMany(Batch::class);
+    }
 }

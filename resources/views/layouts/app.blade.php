@@ -290,6 +290,22 @@
             height: 100%;
         }
         
+        .text-total-obat {
+            color: var(--success);
+        }
+
+        .text-akan-kadaluarsa {
+            color: var(--warning);
+        }
+
+        .text-kadaluarsa {
+            color: var(--danger);
+        }
+
+        .text-stok-menipis {
+            color: var(--black);
+        }
+
         /* Table Styling */
         .table {
             border-collapse: separate;
@@ -331,6 +347,18 @@
             filter: brightness(0) saturate(100%);
         }
         
+        .bg-danger-light {
+            background-color: rgba(237, 30, 40, 0.1);
+        }
+
+        .bg-warning-light {
+            background-color: rgba(255, 189, 7, 0.1);
+        }
+
+        .bg-light-gray {
+            background-color: var(--light-gray);
+        }
+
         .notification-list {
             margin-bottom: 0;
         }
