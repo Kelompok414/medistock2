@@ -29,52 +29,70 @@
             --light-gray: #F5F5F5;
             --dark-grey: #808080;
             --border-radius: 16px;
+            --header-height: 60px;
         }
         
         /* Body */
         body {
             font-family: 'Poppins', sans-serif;
             background-color: var(--light-gray);
+            min-height: 100vh;
             margin: 0;
             padding: 0;
-            height: 100vh;
-            overflow: hidden;
         }
 
         /* Typography */
-        .font-small { font-size: 13px; }
-        .font-medium { font-size: 16px; }
-        .font-large { font-size: 20px; }
+        .welcome-message {
+            color: var(--primary);
+            font-size: 20px;
+            font-weight: 500;
+        }
         
-        h1, .h1 { font-size: 25px; font-weight: 700; }
-        h2, .h2 { font-size: 20px; font-weight: 600; }
-        h3, .h3 { font-size: 16px; font-weight: 500; }
-        p, .font-small { font-size: 13px; font-weight: 400; }
+        .section-title {
+            font-size: 20px;
+            font-weight: 500;
+        }
 
-        /* Layout Structure */
+        /* Layout */
+        html, body, .app-container {
+            height: 100%;
+        }
+        
         .app-container {
             display: flex;
             flex-direction: column;
-            height: 100vh;
+            min-height: 100vh;
         }
 
         .content-container {
             display: flex;
             flex: 1;
-            height: calc(100vh - 50px);
-            overflow: hidden;
+            position: relative;
+            height: calc(100vh - var(--header-height));
         }
 
         /* Header */
         .app-header {
             background-color: var(--primary);
-            height: 50px;
+            height: var(--header-height);
             width: 100%;
             display: flex;
             align-items: center;
             justify-content: center;
             padding: 0 20px;
-            flex-shrink: 0;
+            z-index: 1000;
+            position: sticky;
+            top: 0;
+        }
+        
+        .search-input {
+            width: 100%;
+            padding: 8px 15px 8px 45px;
+            border-radius: 50px;
+            border: none;
+            outline: none;
+            background-color: rgba(255, 255, 255, 0.2);
+            color: white;
         }
         
         .search-input::placeholder {
@@ -82,18 +100,14 @@
             opacity: 0.7;
         }
         
-        .search-input:focus {
-            box-shadow: 0 0 0 3px rgba(39, 155, 72, 0.5);
-            outline-color: var(--primary);
-        }
-        
         /* Sidebar Menu */
         .sidebar-container {
+            width: 280px;
             height: 100%;
             padding: 1rem;
-            display: flex;
-            flex-direction: column;
-            overflow: hidden;
+            position: sticky;
+            top: var(--header-height);
+            align-self: flex-start;
         }
         
         .menu-box {
@@ -102,9 +116,7 @@
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
             display: flex;
             flex-direction: column;
-            width: 260px;
-            height: 100%;
-            overflow: hidden;
+            height: calc(100vh - var(--header-height) - 2rem);
         }
 
         .menu-box-content {
@@ -113,21 +125,33 @@
             overflow-y: auto;
         }
 
+        .app-logo {
+            display: flex;
+            align-items: center;
+            margin-bottom: 25px;
+            padding: 10px 0;
+        }
+
+        .logo-image {
+            width: 40px;
+            height: 40px;
+            object-fit: contain;
+            margin-right: 10px;
+        }
+
+        .logo-text {
+            font-size: 20px;
+            font-weight: 600;
+            color: var(--primary);
+        }
+
         .menu-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
             margin-bottom: 25px;
-            font-weight: 600;
-            font-size: 16px;
-            color: var(--black);
-        }
-
-        .menu-toggle {
-            background: none;
-            border: none;
-            cursor: pointer;
-            padding: 0;
+            font-size: 20px;
+            font-weight: 500;
         }
 
         .sidebar-menu {
@@ -137,10 +161,7 @@
         }
 
         .menu-item {
-            font-size: 20px;
-            font-weight: 500;
             margin-bottom: 15px;
-            color: var(--black);
         }
 
         .menu-link {
@@ -152,6 +173,7 @@
             text-decoration: none;
             transition: all 0.3s ease;
             font-size: 15px;
+            font-weight: 500;
         }
 
         .menu-link:hover {
@@ -168,22 +190,19 @@
             margin-right: 12px;
             width: 18px;
             height: 18px;
-            transition: filter 0.3s ease;
         }
         
-        /* Membuat icon menjadi hitam saat tidak aktif */
-        .menu-link .menu-icon {
-            filter: brightness(0);
+        .menu-link:hover .menu-icon {
+            filter: brightness(0) invert(41%) sepia(86%) saturate(459%) hue-rotate(93deg) brightness(94%) contrast(89%);
         }
-        
-        /* Membuat icon menjadi putih saat menu aktif */
+
         .menu-link.active .menu-icon {
-            filter: brightness(100);
+            filter: invert(1) brightness(100);
         }
 
         .menu-box-footer {
             padding: 20px;
-            margin-top: auto;
+            border-top: 1px solid var(--light-gray);
         }
 
         .logout-btn {
@@ -193,7 +212,7 @@
             border: none;
             color: var(--black);
             padding: 12px 15px;
-            margin: 0 0 15px 0;
+            margin-bottom: 15px;
             border-radius: 8px;
             cursor: pointer;
             font-size: 15px;
@@ -259,7 +278,7 @@
         .main-content {
             flex: 1;
             padding: 1rem;
-            overflow: auto;
+            overflow-y: auto;
             height: 100%;
         }
         
@@ -268,96 +287,125 @@
             border-radius: var(--border-radius);
             border: none;
             box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-        }
-        
-        .full-height-card {
             height: 100%;
-            display: flex;
-            flex-direction: column;
         }
         
         /* Table Styling */
-        .table-row-hover {
+        .table {
+            border-collapse: separate;
+            border-spacing: 0 0px;
+        }
+
+        .table tbody tr td {
+            border: none;
+        }
+        .table-header {
+            background-color: var(--primary);
+            color: var(--white);
+        }
+
+        .table-header th {
+            padding: 12px;
+            font-weight: 500;
+            font-size: 16px;
+        }
+
+        .table-header th:first-child {
+            border-radius: 16px 0 0 0;
+        }
+
+        .table-header th:last-child {
+            border-radius: 0 16px 0 0;
+        }
+        
+        /* Notification Styling */
+        .icon-danger {
+            filter: brightness(0) saturate(100%) invert(23%) sepia(83%) saturate(7470%) hue-rotate(356deg) brightness(91%) contrast(121%);
+        }
+        
+        .icon-warning {
+            filter: brightness(0) saturate(100%) invert(72%) sepia(78%) saturate(936%) hue-rotate(359deg) brightness(101%) contrast(106%);
+        }
+        
+        .icon-black {
+            filter: brightness(0) saturate(100%);
+        }
+        
+        .notification-list {
+            margin-bottom: 0;
+        }
+        
+        .notification-item {
+            padding: 10px;
+            border-radius: 8px;
+        }
+
+        .table tbody tr, .notification-item {
             transition: all 0.3s ease;
         }
         
-        .table-row-hover:hover {
+        .table tbody tr:hover, .notification-item:hover {
             background-color: rgba(0, 0, 0, 0.03);
             transform: translateY(-1px);
             box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
             cursor: pointer;
         }
         
-        /* Scroll Styling */
-        .scroll-container {
-            overflow-y: auto;
-            border-radius: 0 0 16px 16px;
-            flex: 1;
+        .notification-icon {
+            height: 2rem;
+            width: 2rem;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
         
-        .table-responsive::-webkit-scrollbar,
-        .scroll-container::-webkit-scrollbar,
-        .main-content::-webkit-scrollbar,
-        .menu-box-content::-webkit-scrollbar {
-            width: 5px;
-            height: 5px;
+        .notification-message {
+            font-size: 16px;
+            margin-bottom: 5px;
         }
         
-        .table-responsive::-webkit-scrollbar-track,
-        .scroll-container::-webkit-scrollbar-track,
-        .main-content::-webkit-scrollbar-track,
-        .menu-box-content::-webkit-scrollbar-track {
-            background: transparent;
+        .notification-description {
+            font-size: 14px;
+            margin-bottom: 5px;
+            color: var(--dark-grey);
         }
         
-        .table-responsive::-webkit-scrollbar-thumb,
-        .scroll-container::-webkit-scrollbar-thumb,
-        .main-content::-webkit-scrollbar-thumb,
-        .menu-box-content::-webkit-scrollbar-thumb {
-            background: rgba(0, 0, 0, 0.1);
-            border-radius: 10px;
+        .badge-tanggal {
+            background-color: var(--dark-grey);
+            font-size: 14px;
+            color: var(--white);
+            padding: 4px 10px;
+            border-radius: 16px;
+            display: inline-block;
+            min-width: 120px;
+            text-align: center;
         }
         
-        .table-responsive::-webkit-scrollbar-thumb:hover,
-        .scroll-container::-webkit-scrollbar-thumb:hover,
-        .main-content::-webkit-scrollbar-thumb:hover,
-        .menu-box-content::-webkit-scrollbar-thumb:hover {
-            background: rgba(0, 0, 0, 0.2);
+        .view-all-link {
+            color: var(--primary);
+            text-decoration: none;
+            font-size: 16px;
+            transition: all 0.2s ease;
+            font-weight: 500;
         }
         
-        /* Table Header */
-        .sticky-header {
-            position: sticky;
-            top: 0;
-            z-index: 2;
-            background-color: var(--primary);
+        .view-all-link:hover {
+            text-decoration: underline;
         }
         
-        .sticky-header tr {
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-        }
-        
-        .borderless-table td,
-        .borderless-table th {
-            border: none;
-        }
-        
-        .borderless-table td {
-            vertical-align: middle;
-        }
-        
-        .fixed-table {
-            table-layout: fixed;
-            width: 100%;
-        }
-        
-        /* Notification */
+        /* Status Notification */
         .status-notification {
             background-color: #d4edda;
-            color: #155724;
+            color: var(--primary);
             padding: 10px;
             border-radius: 5px;
             margin: 1rem;
+        }
+        
+        /* Khusus untuk status notification */
+        .status-container {
+            width: 100%;
         }
     </style>
 </head>
@@ -366,7 +414,7 @@
         <!-- Header -->
         <header class="app-header">
             <div style="position: relative; width: 80%; max-width: 600px;">
-                <input type="text" placeholder="Looking for something?" class="search-input" style="width: 100%; padding: 8px 15px 8px 45px; border-radius: 50px; border: none; outline: none; background-color: rgba(255, 255, 255, 0.2); color: white;">
+                <input type="text" placeholder="Looking for something?" class="search-input">
                 <img src="{{ asset('assets/images/search.png') }}" alt="Search" style="position: absolute; left: 15px; top: 50%; transform: translateY(-50%); width: 20px; height: 20px; opacity: 0.7;">
             </div>
             <div style="margin-left: 15px;">
@@ -378,8 +426,10 @@
 
         <!-- Status Notification -->
         @if(session('status'))
-            <div class="status-notification">
-                {{ session('status') }}
+            <div class="status-container">
+                <div class="status-notification">
+                    {{ session('status') }}
+                </div>
             </div>
         @endif
         
@@ -388,9 +438,16 @@
             <div class="sidebar-container">
                 <div class="menu-box">
                     <div class="menu-box-content">
-                        <div class="menu-header" style="font-size: 20px; font-weight: medium;">
+                        <!-- Logo dan Nama Website-->
+                        <div class="app-logo">
+                            <img src="{{ asset('assets/images/MediStock_Icon.png') }}" alt="MediStock Logo" class="logo-image">
+                            <span class="logo-text">MediStock</span>
+                        </div>
+                        
+                        <!-- Menu Header -->
+                        <div class="menu-header">
                             <span>Menu</span>
-                            <button class="menu-toggle">
+                            <button class="btn p-0">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                                     <polyline points="6 9 12 15 18 9"></polyline>
                                 </svg>
@@ -412,7 +469,7 @@
                             </li>
                             <li class="menu-item">
                                 <a href="{{ route('manajemen.kasir') }}" class="menu-link {{ request()->routeIs('manajemen.kasir') ? 'active' : '' }}">
-                                    <img src="{{ asset('assets/images/cashier.png') }}" alt="Manajemen Kasir" class="menu-icon">
+                                    <img src="{{ asset('assets/images/cashier-management.png') }}" alt="Manajemen Kasir" class="menu-icon">
                                     Manajemen Kasir
                                 </a>
                             </li>
@@ -459,7 +516,7 @@
         </div>
     </div>
     
-    <!-- Bootstrap JS and other scripts -->
+    <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

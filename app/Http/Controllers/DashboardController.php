@@ -34,11 +34,31 @@ class DashboardController extends Controller
                 ['nama' => 'Vitamin C 500mg', 'batch' => 'B78901', 'tanggal_kadaluarsa' => '02 Mar 2025', 'sisa_hari' => -6, 'stok' => '25 Tablet', 'status' => 'Kadaluarsa'],
             ],
             'notifikasiTerbaru' => [
-                ['pesan' => 'Vitamin C 500mg Telah Kadaluarsa', 'tanggal' => '21 Maret 2025'],
-                ['pesan' => 'Cetirizine 10mg Telah Kadaluarsa', 'tanggal' => '21 Maret 2025'],
-                ['pesan' => 'Laporan Bulanan Sudah Tersedia', 'tanggal' => '1 Maret 2025'],
-                ['pesan' => 'Paracetamol 500mg Akan Kadaluarsa', 'tanggal' => '23 Februari 2025'],
-                ['pesan' => 'Amoxicillin 500mg Akan Kadaluarsa', 'tanggal' => '21 Februari 2025'],
+                [
+                    'pesan' => 'Vitamin C 500mg Telah Kadaluarsa',
+                    'tanggal' => '21 Maret 2025',
+                    'deskripsi' => '25 tablet perlu dilakukan pemusnahan'
+                ],
+                [
+                    'pesan' => 'Cetirizine 10mg Telah Kadaluarsa',
+                    'tanggal' => '21 Maret 2025',
+                    'deskripsi' => '30 tablet perlu dilakukan pemusnahan'
+                ],
+                [
+                    'pesan' => 'Laporan Bulanan Sudah Tersedia',
+                    'tanggal' => '1 Maret 2025',
+                    'deskripsi' => 'Lihat ringkasan obat kadaluwarsa bulan Februari'
+                ],
+                [
+                    'pesan' => 'Paracetamol 500mg Akan Kadaluarsa',
+                    'tanggal' => '23 Februari 2025',
+                    'deskripsi' => 'Dalam 89 hari'
+                ],
+                [
+                    'pesan' => 'Amoxicillin 500mg Akan Kadaluarsa',
+                    'tanggal' => '21 Februari 2025',
+                    'deskripsi' => 'Dalam 73 hari'
+                ],
             ],
         ];
 
