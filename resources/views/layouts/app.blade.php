@@ -534,7 +534,7 @@
                         
                         <ul class="sidebar-menu">
                             <li class="menu-item">
-                                <a href="{{ route('dashboard') }}" class="menu-link {{ request()->routeIs('dashboard') ? 'active' : '' }}">
+                                <a href="{{ route('dashboard') }}" class="menu-link {{ request()->routeIs('dashboard') || request()->is('*expiring-medications*') ? 'active' : '' }}">
                                     <img src="{{ asset('assets/images/dashboard.png') }}" alt="Dashboard" class="menu-icon">
                                     Dashboard
                                 </a>
