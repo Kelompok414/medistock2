@@ -334,6 +334,56 @@
             border-radius: 0 16px 0 0;
         }
         
+        .page-item:first-child .page-link {
+            border-top-left-radius: 0.25rem;
+            border-bottom-left-radius: 0.25rem;
+        }
+
+        .page-item:last-child .page-link {
+            border-top-right-radius: 0.25rem;
+            border-bottom-right-radius: 0.25rem;
+        }
+
+        .page-item.active .page-link {
+            z-index: 3;
+            color: #fff;
+            background-color: var(--primary);
+            border-color: var(--primary);
+        }
+
+        .page-item.disabled .page-link {
+            color: var(--dark-grey);
+            pointer-events: none;
+            background-color: var(--white);
+            border-color: var(--light-gray);
+        }
+
+        .page-link {
+            position: relative;
+            display: block;
+            padding: 0.5rem 0.75rem;
+            margin-left: -1px;
+            line-height: 1.25;
+            color: var(--primary);
+            background-color: var(--white);
+            border: 1px solid var(--light-gray);
+            text-decoration: none;
+        }
+
+        .page-link:hover {
+            z-index: 2;
+            color: var(--primary);
+            text-decoration: none;
+            background-color: var(--white);
+            border-color: var(--light-gray);
+        }
+
+        .page-link:focus {
+            z-index: 3;
+            outline: 0;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
         /* Notification Styling */
         .icon-danger {
             filter: brightness(0) saturate(100%) invert(23%) sepia(83%) saturate(7470%) hue-rotate(356deg) brightness(91%) contrast(121%);

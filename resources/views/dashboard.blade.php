@@ -79,8 +79,51 @@
                     </div>
                     
                     <!-- Pagination Links -->
-                    <div class="mt-3 d-flex justify-content-center">
-                        {{ $pengingatKadaluarsaPaginator->links() }}
+                    <div class="d-flex justify-content-center mt-3">
+                        <div class="pagination-container">
+                            @if ($pengingatKadaluarsaPaginator->hasPages())
+                                <div class="pagination-info mb-2">
+                                    Showing {{ $pengingatKadaluarsaPaginator->firstItem() }} to {{ $pengingatKadaluarsaPaginator->lastItem() }} 
+                                    of {{ $pengingatKadaluarsaPaginator->total() }} results
+                                </div>
+                                <ul class="pagination">
+                                    {{-- Previous Page Link --}}
+                                    @if ($pengingatKadaluarsaPaginator->onFirstPage())
+                                        <li class="page-item disabled">
+                                            <span class="page-link">&laquo; Previous</span>
+                                        </li>
+                                    @else
+                                        <li class="page-item">
+                                            <a class="page-link" href="{{ $pengingatKadaluarsaPaginator->previousPageUrl() }}" rel="prev">&laquo; Previous</a>
+                                        </li>
+                                    @endif
+
+                                    {{-- Pagination Elements --}}
+                                    @foreach ($pengingatKadaluarsaPaginator->getUrlRange(1, $pengingatKadaluarsaPaginator->lastPage()) as $page => $url)
+                                        @if ($page == $pengingatKadaluarsaPaginator->currentPage())
+                                            <li class="page-item active">
+                                                <span class="page-link">{{ $page }}</span>
+                                            </li>
+                                        @else
+                                            <li class="page-item">
+                                                <a class="page-link" href="{{ $url }}">{{ $page }}</a>
+                                            </li>
+                                        @endif
+                                    @endforeach
+
+                                    {{-- Next Page Link --}}
+                                    @if ($pengingatKadaluarsaPaginator->hasMorePages())
+                                        <li class="page-item">
+                                            <a class="page-link" href="{{ $pengingatKadaluarsaPaginator->nextPageUrl() }}" rel="next">Next &raquo;</a>
+                                        </li>
+                                    @else
+                                        <li class="page-item disabled">
+                                            <span class="page-link">Next &raquo;</span>
+                                        </li>
+                                    @endif
+                                </ul>
+                            @endif
+                        </div>
                     </div>
                 </div>
             </div>
