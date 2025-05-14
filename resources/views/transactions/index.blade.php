@@ -14,40 +14,58 @@
             <a href="{{ route('transactions.create') }}" class="btn btn-success">+ New Transaction</a>
         </div>
 
+        <form method="GET" id="filter-form" action="{{ route('transactions.index') }}" class="mb-4">
+            <div class="row g-2 align-items-end">
+                <div class="col-md-3">
+                    <label for="user">Search User</label>
+                    <input type="text" name="user" id="user-search" class="form-control" placeholder="User name">
+                </div>
+                <div class="col-md-3">
+                    <label for="from_date">From Date</label>
+                    <input type="date" name="from_date" id="from_date" class="form-control" value="{{ request('from_date') }}">
+                </div>
+                <div class="col-md-3">
+                    <label for="to_date">To Date</label>
+                    <input type="date" name="to_date" id="to_date" class="form-control" value="{{ request('to_date') }}">
+                </div>
+                <div class="col-md-3 d-flex">
+                    <button type="submit" class="btn btn-success me-2">Filter</button>
+                    <a href="{{ route('transactions.index') }}" class="btn btn-secondary">Reset</a>
+                </div>
+            </div>
+        </form>
+
         <div class="card">
             <div class="card-body">
-                <table class="table table-bordered table-striped">
-                    <thead class="table-success">
-                        <tr>
-                            <th>ID</th>
-                            <th>User</th>
-                            <th>Total Price</th>
-                            <th>Transaction Date</th>
-                            <th>Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach ($transactions as $transaction)
-                        <tr>
-                            <td>{{ $transaction->id }}</td>
-                            <td>{{ $transaction->user->name ?? 'N/A' }}</td>
-                            <td>Rp{{ number_format($transaction->total_price, 0, ',', '.') }}</td>
-                            <td>{{ $transaction->transaction_date }}</td>
-                            <td>
-                                <a href="{{ route('transactions.show', $transaction->id) }}" class="btn btn-info btn-sm">View</a>
-                                <a href="{{ route('transactions.edit', $transaction->id) }}" class="btn btn-primary btn-sm">Edit</a>
-                                <form action="{{ route('transactions.destroy', $transaction->id) }}" method="POST" class="d-inline">
-                                    @csrf
-                                    @method('DELETE')
-                                    <button onclick="return confirm('Are you sure?')" class="btn btn-danger btn-sm">Delete</button>
-                                </form>
-                            </td>
-                        </tr>
-                        @endforeach
-                    </tbody>
-                </table>
+                <div id="transaction-table">
+                    @include('transactions.partials.table-transactions', ['transactions' => $transactions])
+                </div>
             </div>
         </div>
     </div>
 </div>
 @endsection
+
+@push('scripts')
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const searchInput = document.getElementById('user-search');
+
+        searchInput.addEventListener('keyup', function() {
+            const user = searchInput.value;
+            const from_date = document.getElementById('from_date').value;
+            const to_date = document.getElementById('to_date').value;
+
+            fetch(`{{ route('transactions.index') }}?user=${user}&from_date=${from_date}&to_date=${to_date}`, {
+                    headers: {
+                        'X-Requested-With': 'XMLHttpRequest'
+                    }
+                })
+                .then(response => response.text())
+                .then(html => {
+                    document.getElementById('transaction-table').innerHTML = html;
+                });
+        });
+    });
+</script>
+@endpush

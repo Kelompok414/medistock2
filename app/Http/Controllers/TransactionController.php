@@ -9,9 +9,31 @@ use Illuminate\Support\Str;
 
 class TransactionController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $transactions = Transaction::with('user')->latest()->get();
+        $query = Transaction::with('user');
+
+        if ($request->filled('user')) {
+            $query->whereHas('user', function ($q) use ($request) {
+                $q->where('name', 'like', '%' . $request->user . '%');
+            });
+        }
+
+        if ($request->filled('from_date')) {
+            $query->whereDate('transaction_date', '>=', $request->from_date);
+        }
+
+        if ($request->filled('to_date')) {
+            $query->whereDate('transaction_date', '<=', $request->to_date);
+        }
+
+        // Khusus untuk AJAX, kembalikan view partial
+        if ($request->ajax()) {
+            $transactions = $query->latest()->paginate(10);
+            return view('transactions.partials.table-transactions', compact('transactions'));
+        }
+
+        $transactions = $query->latest()->paginate(10);
         return view('transactions.index', compact('transactions'));
     }
 
