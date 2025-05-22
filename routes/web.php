@@ -20,6 +20,10 @@ Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 Route::get('/dashboard', [AuthController::class, 'dashboard'])->name('dashboard'); // Admin Dashboard
 Route::get('/kasir-dashboard', [AuthController::class, 'kasirDashboard'])->name('kasir.dashboard'); // Kasir Dashboard
 
+Route::get('/expiring-medications', [App\Http\Controllers\DashboardController::class, 'expiringMedications'])
+    ->name('expiring.medications');
+
+
 Route::get('/manajemen-kasir', function () {
     return view('manajemenkasir');
 })->name('manajemen.kasir');

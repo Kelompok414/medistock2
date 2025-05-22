@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Carbon\Carbon;
 
 class Batch extends Model
 {
@@ -17,16 +18,35 @@ class Batch extends Model
         'medicine_id',
         'batch_number',
         'quantity',
-        'expiry_date'
+        'expiry_date',
     ];
 
     protected $casts = [
-        'expiry_date' => 'date', // Ini penting untuk bisa pakai ->format()
+        'expiry_date' => 'date',
     ];
 
     // Relasi ke obat
     public function medicine()
     {
         return $this->belongsTo(Medicine::class);
+    }
+    
+
+    // Cek apakah batch sudah kadaluarsa
+    public function isExpired()
+    {
+        return $this->expiry_date->isPast();
+    }
+
+    // Cek apakah batch akan kadaluarsa dalam 3 bulan ke depan
+    public function willExpireSoon()
+    {
+        return !$this->isExpired() && $this->expiry_date->lte(Carbon::now()->addMonths(3));
+    }
+
+    // Cek apakah stok batch menipis (misal < 30)
+    public function isLowStock()
+    {
+        return $this->quantity < 30 && $this->quantity > 0;
     }
 }
