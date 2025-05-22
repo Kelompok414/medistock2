@@ -1,5 +1,9 @@
 <!DOCTYPE html>
 <html lang="en">
+<<<<<<< HEAD
+=======
+
+>>>>>>> main
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -32,21 +36,37 @@
         }
 
         /* Contoh hierarki font */
+<<<<<<< HEAD
         h1, .h1 {
+=======
+        h1,
+        .h1 {
+>>>>>>> main
             font-size: 25px;
             font-weight: 700;
         }
 
+<<<<<<< HEAD
         h2, .h2 {
+=======
+        h2,
+        .h2 {
+>>>>>>> main
             font-size: 20px;
             font-weight: 600;
         }
 
+<<<<<<< HEAD
         h3, .h3 {
+=======
+        h3,
+        .h3 {
+>>>>>>> main
             font-size: 16px;
             font-weight: 500;
         }
 
+<<<<<<< HEAD
         p, .font-small {
             font-size: 13px;
             font-weight: 400;
@@ -58,9 +78,69 @@
         <div style="background-color: #d4edda; color: #155724; padding: 10px; border-radius: 5px; margin: 20px;">
             {{ session('status') }}
         </div>
+=======
+        p,
+        .font-small {
+            font-size: 13px;
+            font-weight: 400;
+        }
+
+        .notif-tab {
+            display: block;
+            padding: 12px;
+            text-decoration: none;
+            text-align: center;
+            font-weight: 400;
+            transition: background-color 0.3s, border-radius 0.3s;
+        }
+
+        .notif-tab:hover {
+            background-color: #3fb267;
+        }
+
+        .notif-th {
+            padding: 0;
+            border-bottom: 4px solid #ccc;
+        }
+
+        .notif-left {
+            border-radius: 16px 0 0 16px;
+        }
+
+        .notif-right {
+            border-radius: 0 16px 16px 0;
+        }
+
+        table {
+            border-collapse: separate;
+            border-spacing: 0;
+        }
+
+        thead tr {
+            background-color: #279B48;
+            color: white;
+        }
+
+        a.active {
+            background-color: rgb(159, 198, 170);
+            color: black;
+        }
+    </style>
+</head>
+
+<body>
+    @if(session('status'))
+    <div style="background-color: #d4edda; color: #155724; padding: 10px; border-radius: 5px; margin: 20px;">
+        {{ session('status') }}
+    </div>
+>>>>>>> main
     @endif
     @yield('content')
     <!-- Tambahkan script JavaScript atau library lainnya -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"></script>
+<<<<<<< HEAD
+=======
+    @stack('scripts')
+>>>>>>> main
 </body>
 </html>
