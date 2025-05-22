@@ -11,13 +11,11 @@ use Illuminate\Support\Facades\Auth;
 
 class AuthController extends Controller
 {
-    // Menampilkan form login
     public function form()
     {
         return view('auth.login');
     }
 
-    // Proses login
     public function login(Request $request)
     {
         $validated = $request->validate([
@@ -54,13 +52,20 @@ class AuthController extends Controller
             return redirect('/login')->with('error', 'Silakan login terlebih dahulu.');
         }
 
-        return view('dashboard', [
+        // get data dummy
+        $dashboardData = app('App\Http\Controllers\DashboardController')->admin();
+
+        // Gabungkan data session dengan data dummy
+        $data = array_merge($dashboardData, [
             'name' => session('user_name'),
             'role' => session('user_role'),
         ]);
+
+        // Kirim data ke view dashboard.blade.php
+        return view('dashboard', $data);
     }
 
-    // Menampilkan halaman dashboard kasir
+
     public function kasirDashboard()
     {
         // Cek apakah session user sudah ada
@@ -103,4 +108,3 @@ class AuthController extends Controller
         ]);
     }
 }
-
