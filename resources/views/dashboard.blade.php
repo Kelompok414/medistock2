@@ -185,11 +185,16 @@
                         </ul>
 
                         <div class="text-center mt-3">
-                            <a href="#" class="view-all-link">Lihat semua notifikasi</a>
+                            <a href="{{ route('notifikasi') }}" class="view-all-link">Lihat semua notifikasi</a>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-</x-app-layout>
+<<<<<<<<< Temporary merge branch 1
+</div>
+@endsection
+=========
+@endsection
+>>>>>>>>> Temporary merge branch 2

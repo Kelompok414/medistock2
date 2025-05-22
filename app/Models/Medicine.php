@@ -14,6 +14,7 @@ class Medicine extends Model
     protected $keyType = 'string';
     protected $fillable = ['id', 'category_id', 'name', 'code', 'dosage', 'description'];
     
+
     public function category()
     {
         return $this->belongsTo(Category::class);
