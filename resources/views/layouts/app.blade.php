@@ -552,7 +552,7 @@
                                 </a>
                             </li>
                             <li class="menu-item">
-                                <a href="#" class="menu-link">
+                                <a href="{{ route('reports.monthly') }}" class="menu-link">
                                     <img src="{{ asset('assets/images/report.png') }}" alt="Laporan" class="menu-icon">
                                     Laporan
                                 </a>

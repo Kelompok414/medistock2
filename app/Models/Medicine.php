@@ -23,4 +23,9 @@ class Medicine extends Model
     public function batches() {
         return $this->hasMany(Batch::class);
     }
+
+    public function medicine()
+    {
+        return $this->belongsTo(Medicine::class);
+    }
 }
