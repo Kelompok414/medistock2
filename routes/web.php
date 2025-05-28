@@ -6,6 +6,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\KasirController;
 use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\TransactionController;
+use App\Http\Controllers\ReportController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -39,3 +40,13 @@ Route::get('/produkhabis', [NotificationController::class, 'index'])->name('prod
 Route::get('/laporanbulanan', [NotificationController::class, 'index'])->name('laporanbulanan');
 
 Route::resource('transactions', TransactionController::class);
+
+Route::prefix('reports')->group(function () {
+    Route::get('/weekly', [ReportController::class, 'weekly'])->name('reports.weekly');
+    Route::get('/monthly', [ReportController::class, 'monthly'])->name('reports.monthly');
+    Route::get('/annual', [ReportController::class, 'annual'])->name('reports.annual');
+});
+
+Route::get('reports/weekly/export', [ReportController::class, 'exportWeekly'])->name('reports.weekly.export');
+Route::get('reports/monthly/export', [ReportController::class, 'exportMonthly'])->name('reports.monthly.export');
+Route::get('reports/annual/export', [ReportController::class, 'exportAnnual'])->name('reports.annual.export');

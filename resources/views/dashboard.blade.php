@@ -192,9 +192,5 @@
             </div>
         </div>
     </div>
-<<<<<<<<< Temporary merge branch 1
 </div>
 @endsection
-=========
-@endsection
->>>>>>>>> Temporary merge branch 2
