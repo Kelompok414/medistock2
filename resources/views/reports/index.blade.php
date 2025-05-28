@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="max-w-6xl mx-auto p-6 bg-white rounded-lg shadow">
+<div class="container mx-auto px-4 bg-white shadow-md rounded-lg py-6">
     <table class="table" style="background-color: #FFFFFF; border-collapse: separate; border-spacing: 0; width: 100%; min-width: 800px;">
         <thead>
             <tr style="background-color: #279B48; color: #FFFFFF;">
@@ -61,24 +61,29 @@
             <a href="{{ route('reports.weekly.export', ['week' => $selected]) }}" 
             class="btn btn-sm" 
             target="_blank"
-            style="background-color:#279B48; color:#fff; border:none; border-radius:4px; padding: 10px 20px;">
+            style="background-color:#3BAFDA; color:#fff; border:none; border-radius:4px; padding: 10px 20px;">
                 Download PDF
             </a>
         @elseif($type == 'monthly')
             <a href="{{ route('reports.monthly.export', ['month' => $selected['month'], 'year' => $selected['year']]) }}" 
             class="btn btn-sm" 
             target="_blank"
-            style="background-color:#279B48; color:#fff; border:none; border-radius:4px; padding: 10px 20px;">
+            style="background-color:#3BAFDA; color:#fff; border:none; border-radius:4px; padding: 10px 20px;">
                 Download PDF
             </a>
         @elseif($type == 'annual')
             <a href="{{ route('reports.annual.export', ['year' => $selected]) }}" 
             class="btn btn-sm" 
             target="_blank"
-            style="background-color:#279B48; color:#fff; border:none; border-radius:4px; padding: 10px 20px;">
+            style="background-color:#3BAFDA; color:#fff; border:none; border-radius:4px; padding: 10px 20px;">
                 Download PDF
             </a>
         @endif
+        <a href="{{ route('analytics.index') }}" 
+        class="btn btn-sm" 
+        style="background-color:#FFC107; color:#fff; border:none; border-radius:4px; padding: 10px 20px;">
+            Analytics
+        </a>
     </div>
 
     {{-- Total Price Summary --}}

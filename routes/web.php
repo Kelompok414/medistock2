@@ -7,6 +7,7 @@ use App\Http\Controllers\KasirController;
 use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\TransactionController;
 use App\Http\Controllers\ReportController;
+use App\Http\Controllers\AnalyticsController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -50,3 +51,6 @@ Route::prefix('reports')->group(function () {
 Route::get('reports/weekly/export', [ReportController::class, 'exportWeekly'])->name('reports.weekly.export');
 Route::get('reports/monthly/export', [ReportController::class, 'exportMonthly'])->name('reports.monthly.export');
 Route::get('reports/annual/export', [ReportController::class, 'exportAnnual'])->name('reports.annual.export');
+
+Route::get('/analytics', [AnalyticsController::class, 'index'])->name('analytics.index');
+Route::get('/analytics/trend/{range}', [AnalyticsController::class, 'getTrend']);
