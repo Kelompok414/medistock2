@@ -1,42 +1,38 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="container mx-auto px-4 bg-white shadow-md rounded-lg py-6">
-    
+<div class="container mx-auto px-4 bg-white shadow-md rounded-lg py-6 max-w-7xl">
+
     {{-- Dropdown untuk memilih range laporan --}}
     <select id="rangeSelect"
-        class="w-64 mb-4 px-3 py-2 rounded-md text-sm text-gray-700">
+        style="width: 350px; border: 1px solid #d1d5db; padding: 0.5rem 0.75rem; border-radius: 0.375rem; font-size: 0.875rem; color: #374151; outline: none;"
+        class="mb-4">
         <option value="mingguan">Laporan Mingguan</option>
         <option value="bulanan">Laporan Bulanan</option>
         <option value="tahunan">Laporan Tahunan</option>
     </select>
 
     {{-- Grafik Tren Penjualan --}}
-    <div class="mb-6 bg-white shadow-md rounded-lg p-4">
+    <div class="mb-6 bg-white shadow-md rounded-lg p-4" style="height: 260px;">
         <h2 class="text-lg font-semibold mb-2">Tren Penjualan</h2>
-        <div class="h-64">
-            <canvas id="trendChart" class="w-full h-full"></canvas>
-        </div>
+        <canvas id="trendChart" class="w-full h-full"></canvas>
     </div>
 
-    {{-- Grid 2 kolom untuk grafik top & bottom --}}
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+    {{-- Flex container untuk side-by-side Top dan Bottom --}}
+    <div class="flex flex-wrap md:flex-nowrap gap-4">
 
         {{-- Top 5 Produk Terlaris --}}
-        <div class="bg-white shadow-md rounded-lg p-4">
+        <div class="bg-white shadow-md rounded-lg p-4 flex-1 md:w-1/2 w-full max-w-full overflow-hidden border border-gray-200" style="height: 250px;">
             <h2 class="text-lg font-semibold mb-2">5 Produk Paling Laris</h2>
-            <div class="h-48">
-                <canvas id="topChart" class="w-full h-full"></canvas>
-            </div>
+            <canvas id="topChart" class="w-full h-full"></canvas>
         </div>
 
-        {{-- Bottom 5 Produk Terjual --}}
-        <div class="bg-white shadow-md rounded-lg p-4">
+        {{-- Bottom 5 Produk Paling Tidak Laku --}}
+        <div class="bg-white shadow-md rounded-lg p-4 flex-1 md:w-1/2 w-full max-w-full overflow-hidden border border-gray-200" style="height: 250px;">
             <h2 class="text-lg font-semibold mb-2">5 Produk Paling Tidak Laku</h2>
-            <div class="h-48">
-                <canvas id="leastChart" class="w-full h-full"></canvas>
-            </div>
+            <canvas id="leastChart" class="w-full h-full"></canvas>
         </div>
+
     </div>
 </div>
 
@@ -67,7 +63,8 @@
             maintainAspectRatio: false,
             scales: {
                 y: {
-                    beginAtZero: true
+                    beginAtZero: true,
+                    ticks: { stepSize: 1 }
                 }
             },
             plugins: {
@@ -94,7 +91,8 @@
             maintainAspectRatio: false,
             scales: {
                 y: {
-                    beginAtZero: true
+                    beginAtZero: true,
+                    ticks: { stepSize: 1 }
                 }
             },
             plugins: {
@@ -111,7 +109,6 @@
                 const labels = data.map(item => item.label);
                 const totals = data.map(item => item.total);
 
-                // Hapus chart lama jika ada
                 if (trendChart) trendChart.destroy();
 
                 trendChart = new Chart(trendCtx, {
@@ -143,7 +140,6 @@
             });
     }
 
-    // Inisialisasi saat halaman dimuat
     document.addEventListener('DOMContentLoaded', function () {
         fetchTrendData('mingguan'); // default load
         document.getElementById('rangeSelect').addEventListener('change', function () {
