@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use App\Models\SaleItem;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
@@ -73,9 +74,22 @@ class AuthController extends Controller
             return redirect('/login')->with('error', 'Silakan login terlebih dahulu.');
         }
 
+        // Ambil user dari session
+        $user = \App\Models\User::find(session('user_id'));
+
+        // Data statistik kasir (ganti sesuai struktur tabelmu)
+        $totalSales = \App\Models\Transaction::sum('total_price');
+        $totalSoldDrugs = SaleItem::sum('quantity');
+        $totalTransactions = \App\Models\Transaction::count();
+        $transactions = \App\Models\Transaction::latest()->take(10)->get();
+
         return view('kasir-dashboard', [
-            'name' => session('user_name'),
-            'role' => session('user_role'),
+            'name' => $user->name,
+            'role' => $user->getRoleNames()->first(), // atau session('user_role')
+            'totalSales' => $totalSales,
+            'totalSoldDrugs' => $totalSoldDrugs,
+            'totalTransactions' => $totalTransactions,
+            'transactions' => $transactions,
         ]);
     }
 

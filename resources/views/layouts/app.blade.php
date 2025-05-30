@@ -12,6 +12,15 @@
     <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     
+    <!-- Feather Icons -->
+    <link rel="stylesheet" href="https://unpkg.com/feather-icons/dist/feather.css">
+    <script src="https://unpkg.com/feather-icons"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            feather.replace();
+        });
+    </script>
+
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css">
     
@@ -540,7 +549,7 @@
                                 </a>
                             </li>
                             <li class="menu-item">
-                                <a href="#" class="menu-link">
+                                <a href="{{ route('inventory.index') }}" class="menu-link {{ request()->routeIs('inventory.index') ? 'active' : '' }}">
                                     <img src="{{ asset('assets/images/inventories.png') }}" alt="Inventaris" class="menu-icon">
                                     Inventaris
                                 </a>
