@@ -8,6 +8,7 @@ use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\TransactionController;
 use App\Http\Controllers\ReportController;
 use App\Http\Controllers\AnalyticsController;
+use App\Http\Controllers\MedicineController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -54,3 +55,11 @@ Route::get('reports/annual/export', [ReportController::class, 'exportAnnual'])->
 
 Route::get('/analytics', [AnalyticsController::class, 'index'])->name('analytics.index');
 Route::get('/analytics/trend/{range}', [AnalyticsController::class, 'getTrend']);
+
+// Route untuk halaman inventaris
+Route::get('/inventory', [MedicineController::class, 'index'])->name('inventory.index');
+Route::get('/inventory/create', [MedicineController::class, 'create'])->name('inventory.create');
+Route::post('/inventory', [MedicineController::class, 'store'])->name('inventory.store');
+Route::get('/inventory/{medicine}/edit', [MedicineController::class, 'edit'])->name('inventory.edit');
+Route::put('/inventory/{medicine}', [MedicineController::class, 'update'])->name('inventory.update');
+Route::delete('/inventory/{medicine}', [MedicineController::class, 'destroy'])->name('inventory.destroy');
