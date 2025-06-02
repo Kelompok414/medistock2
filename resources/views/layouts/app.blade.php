@@ -576,7 +576,7 @@
                                     Laporan
                                 </a>
                             </li>
-                            (session('role') == 'kasir')
+                            @elseif(session('role') == 'kasir')
                             <!-- Menu untuk Kasir -->
                             <li class="menu-item">
                                 <a href="{{ route('kasir.dashboard') }}" class="menu-link {{ request()->routeIs('kasir.dashboard') ? 'active' : '' }}">
