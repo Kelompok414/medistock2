@@ -550,7 +550,7 @@
                         </div>
 
                         <ul class="sidebar-menu">
-                            @if(isset($role) && ($role === 'Admin' || $role === 'admin'))
+                            @if(session('role') == 'admin')
                             <!-- Menu untuk Admin -->
                             <li class="menu-item">
                                 <a href="{{ route('dashboard') }}" class="menu-link {{ request()->routeIs('dashboard') || request()->is('*expiring-medications*') ? 'active' : '' }}">
@@ -576,7 +576,7 @@
                                     Laporan
                                 </a>
                             </li>
-                            @elseif(isset($role) && ($role === 'Kasir' || $role === 'kasir'))
+                            (session('role') == 'kasir')
                             <!-- Menu untuk Kasir -->
                             <li class="menu-item">
                                 <a href="{{ route('kasir.dashboard') }}" class="menu-link {{ request()->routeIs('kasir.dashboard') ? 'active' : '' }}">

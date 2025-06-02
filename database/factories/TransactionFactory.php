@@ -15,7 +15,7 @@ class TransactionFactory extends Factory
         return [
             'id' => $this->faker->uuid(),
             'user_id' => User::factory(),
-            'total_price' => $this->faker->randomFloat(2, 10, 500),
+            'total_price' => $this->faker->randomFloat(0, 10000, 500000),
             'transaction_date' => $this->faker->dateTimeBetween('-1 year', 'now'),
         ];
     }

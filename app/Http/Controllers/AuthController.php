@@ -27,16 +27,21 @@ class AuthController extends Controller
         $user = User::where('email', $validated['email'])->first();
 
         if ($user && Hash::check($validated['password'], $user->password)) {
-            // Simpan session jika login berhasil
-            session([
-                'user_id' => $user->id,
-                'user_name' => $user->name,
-            ]);
 
             // Redirect berdasarkan role
             if ($user->hasRole('admin')) {
+                session([
+                    'user_id' => $user->id,
+                    'user_name' => $user->name,
+                    'role' => 'admin'
+                ]);
                 return redirect('/dashboard');
             } else if ($user->hasRole('kasir')) {
+                session([
+                    'user_id' => $user->id,
+                    'user_name' => $user->name,
+                    'role' => 'kasir'
+                ]);
                 return redirect('/kasir-dashboard');
             }
         }
