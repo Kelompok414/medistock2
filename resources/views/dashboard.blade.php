@@ -185,7 +185,7 @@
                         </ul>
 
                         <div class="text-center mt-3">
-                            <a href="{{ route('notifikasi') }}" class="view-all-link">Lihat semua notifikasi</a>
+                            <a href="{{ url('/notifikasi') }}" class="view-all-link">Lihat semua notifikasi</a>
                         </div>
                     </div>
                 </div>
