@@ -14,17 +14,20 @@ class MedicineController extends Controller
     public function index(Request $request)
     {
         $search = $request->input('search');
+        $sort = $request->input('sort', 'name');
+        $direction = $request->input('direction', 'asc');
 
-        $medicines = Medicine::with('batches')
+        $medicines = Medicine::with('category')
             ->when($search, function ($query, $search) {
                 $query->where(function ($q) use ($search) {
                     $q->where('name', 'ILIKE', "%{$search}%")
                       ->orWhere('code', 'ILIKE', "%{$search}%")
-                      ->orWhere('dosage', 'ILIKE', "%{$search}%")
-                      ->orWhere('description', 'ILIKE', "%{$search}%");
+                      ->orWhere('dosage', 'ILIKE', "%{$search}%");
                 });
             })
-            ->paginate(10);
+            ->orderBy($sort, $direction)
+            ->paginate(10)
+            ->appends($request->except('page'));
 
         return view('inventory.index', compact('medicines'));
     }
@@ -48,12 +51,10 @@ class MedicineController extends Controller
             'category_id' => 'required|exists:categories,id',
             'code' => 'required|string|max:255|unique:medicines,code',
             'dosage' => 'required|string|max:255',
-            'description' => 'nullable|string',
+            'price' => 'required|integer|min:0',
         ]);
 
-        $medicine = Medicine::create($request->only(['name', 'category_id', 'code', 'dosage', 'description']));
-
-        // Untuk batch, buat form/fitur terpisah setelah create medicine
+        Medicine::create($request->only(['name', 'category_id', 'code', 'dosage', 'price']));
 
         return redirect()->route('inventory.index')->with('success', 'Obat berhasil ditambahkan.');
     }
@@ -64,7 +65,6 @@ class MedicineController extends Controller
     public function edit(Medicine $medicine)
     {
         $categories = Category::all();
-        $medicine->load('batches');
         return view('inventory.edit', compact('medicine', 'categories'));
     }
 
@@ -76,12 +76,12 @@ class MedicineController extends Controller
         $request->validate([
             'name' => 'required|string|max:255',
             'category_id' => 'required|exists:categories,id',
-            'code' => 'required|string|max:255|unique:medicines,code,' . $medicine->id,
+            'code' => 'required|string|max:255|unique:medicines,code,' . $medicine->id . ',id',
             'dosage' => 'required|string|max:255',
-            'description' => 'nullable|string',
+            'price' => 'required|integer|min:0',
         ]);
 
-        $medicine->update($request->only(['name', 'category_id', 'code', 'dosage', 'description']));
+        $medicine->update($request->only(['name', 'category_id', 'code', 'dosage', 'price']));
 
         return redirect()->route('inventory.index')->with('success', 'Data obat berhasil diperbarui.');
     }

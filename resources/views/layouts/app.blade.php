@@ -210,7 +210,9 @@
         }
 
         .menu-link.active .menu-icon {
-            filter: invert(1) brightness(100);
+            color: #fff !important;
+            stroke: #fff !important;
+            filter: none !important;
         }
 
         .menu-box-footer {
@@ -501,6 +503,41 @@
         .status-container {
             width: 100%;
         }
+
+        /* Tambahkan di bagian <style> di file yang sama */
+        .btn-icon {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            background: #f5f5f5;
+            border: none;
+            transition: background 0.2s;
+        }
+
+        .btn-light-warning {
+            color: #ffc107;
+        }
+
+        .btn-light-warning:hover,
+        .btn-light-warning:focus {
+            background: #fff8e1;
+            color: #ff9800;
+        }
+
+        .btn-light-danger {
+            color: #dc3545;
+        }
+
+        .btn-light-danger:hover,
+        .btn-light-danger:focus {
+            background: #ffeaea;
+            color: #b71c1c;
+        }
+
+        .btn-icon i {
+            width: 18px;
+            height: 18px;
+        }
     </style>
 </head>
 
@@ -554,25 +591,25 @@
                             <!-- Menu untuk Admin -->
                             <li class="menu-item">
                                 <a href="{{ route('dashboard') }}" class="menu-link {{ request()->routeIs('dashboard') || request()->is('*expiring-medications*') ? 'active' : '' }}">
-                                    <img src="{{ asset('assets/images/dashboard.png') }}" alt="Dashboard" class="menu-icon">
+                                    <i data-feather="home" class="menu-icon"></i>
                                     Dashboard
                                 </a>
                             </li>
                             <li class="menu-item">
                                 <a href="{{ route('inventory.index') }}" class="menu-link {{ request()->routeIs('inventory.index') ? 'active' : '' }}">
-                                    <img src="{{ asset('assets/images/inventories.png') }}" alt="Inventaris" class="menu-icon">
+                                    <i data-feather="package" class="menu-icon"></i>
                                     Inventaris
                                 </a>
                             </li>
                             <li class="menu-item">
                                 <a href="{{ route('manajemen.kasir') }}" class="menu-link {{ request()->routeIs('manajemen.kasir') ? 'active' : '' }}">
-                                    <img src="{{ asset('assets/images/cashier-management.png') }}" alt="Manajemen Kasir" class="menu-icon">
+                                    <i data-feather="users" class="menu-icon"></i>
                                     Manajemen Kasir
                                 </a>
                             </li>
                             <li class="menu-item">
                                 <a href="{{ route('reports.monthly') }}" class="menu-link {{ request()->routeIs('reports.monthly') ? 'active' : '' }}">
-                                    <img src="{{ asset('assets/images/report.png') }}" alt="Laporan" class="menu-icon">
+                                    <i data-feather="file" class="menu-icon"></i>
                                     Laporan
                                 </a>
                             </li>
@@ -580,13 +617,13 @@
                             <!-- Menu untuk Kasir -->
                             <li class="menu-item">
                                 <a href="{{ route('kasir.dashboard') }}" class="menu-link {{ request()->routeIs('kasir.dashboard') ? 'active' : '' }}">
-                                    <img src="{{ asset('assets/images/dashboard.png') }}" alt="Dashboard" class="menu-icon">
-                                    Dashboard Kasir
+                                    <i data-feather="home" class="menu-icon"></i>
+                                    Dashboard
                                 </a>
                             </li>
                             <li class="menu-item">
                                 <a href="{{ route('transactions.index') }}" class="menu-link {{ request()->routeIs('transactions.index') || request()->is('*expiring-medications*') ? 'active' : '' }}">
-                                    <img src="{{ asset('assets/images/cart.png') }}" alt="Penjualan" class="menu-icon">
+                                    <i data-feather="shopping-cart" class="menu-icon"></i>
                                     Penjualan
                                 </a>
                             </li>

@@ -7,12 +7,13 @@
     <form action="{{ route('inventory.update', $medicine->id) }}" method="POST" style="margin-top: 20px;">
         @csrf
         @method('PUT')
+        
         <!-- Nama Obat -->
         <div class="mb-3">
             <label for="name" class="form-label" style="font-size: 16px;">Nama Obat</label>
             <input type="text" name="name" id="name" class="form-control" value="{{ $medicine->name }}" style="border-radius: 16px;" required>
         </div>
-
+        
         <!-- Kategori -->
         <div class="mb-3">
             <label for="category_id" class="form-label" style="font-size: 16px;">Kategori</label>
@@ -24,6 +25,12 @@
                 @endforeach
             </select>
         </div>
+        
+        <!-- Kode Obat -->
+        <div class="mb-3">
+            <label for="code" class="form-label" style="font-size: 16px;">Kode Obat</label>
+            <input type="text" name="code" id="code" class="form-control" value="{{ $medicine->code }}" style="border-radius: 16px;" required>
+        </div>
 
         <!-- Dosis -->
         <div class="mb-3">
@@ -31,38 +38,10 @@
             <input type="text" name="dosage" id="dosage" class="form-control" value="{{ $medicine->dosage }}" style="border-radius: 16px;" required>
         </div>
 
-        <!-- Deskripsi -->
+        <!-- Harga -->
         <div class="mb-3">
-            <label for="description" class="form-label" style="font-size: 16px;">Deskripsi</label>
-            <textarea name="description" id="description" class="form-control" style="border-radius: 16px;">{{ $medicine->description }}</textarea>
-        </div>
-
-        @php
-            $batch = $medicine->batches->sortByDesc('expiry_date')->first();
-        @endphp
-
-        <!-- Batch (readonly) -->
-        <div class="mb-3">
-            <label class="form-label" style="font-size: 16px;">Batch</label>
-            <input type="text" class="form-control" value="{{ $batch ? $batch->batch_number : '-' }}" style="border-radius: 16px;" readonly>
-        </div>
-
-        <!-- Tanggal Kadaluarsa (readonly) -->
-        <div class="mb-3">
-            <label class="form-label" style="font-size: 16px;">Tanggal Kadaluarsa</label>
-            <input type="text" class="form-control" value="{{ $batch ? $batch->expiry_date : '-' }}" style="border-radius: 16px;" readonly>
-        </div>
-
-        <!-- Harga (readonly) -->
-        <div class="mb-3">
-            <label class="form-label" style="font-size: 16px;">Harga (Rp)</label>
-            <input type="text" class="form-control" value="{{ $batch ? number_format($batch->price, 0, ',', '.') : '-' }}" style="border-radius: 16px;" readonly>
-        </div>
-
-        <!-- Stok (readonly) -->
-        <div class="mb-3">
-            <label class="form-label" style="font-size: 16px;">Stok</label>
-            <input type="text" class="form-control" value="{{ $medicine->batches->sum('stock') }}" style="border-radius: 16px;" readonly>
+            <label for="price" class="form-label" style="font-size: 16px;">Harga (Rp)</label>
+            <input type="number" name="price" id="price" class="form-control" value="{{ $medicine->price }}" style="border-radius: 16px;" min="0" required>
         </div>
 
         <!-- Tombol -->
