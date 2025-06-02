@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -11,22 +12,23 @@
     <link rel="preconnect" href="https://fonts.bunny.net">
     <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    
+
     <!-- Feather Icons -->
     <link rel="stylesheet" href="https://unpkg.com/feather-icons/dist/feather.css">
     <script src="https://unpkg.com/feather-icons"></script>
     <script>
-        document.addEventListener('DOMContentLoaded', function () {
+        document.addEventListener('DOMContentLoaded', function() {
             feather.replace();
         });
     </script>
 
+
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css">
-    
+
     <!-- Vite Assets -->
     @vite(['resources/css/app.css', 'resources/js/app.js'])
-    
+
     <style>
         :root {
             --primary: #279B48;
@@ -40,7 +42,7 @@
             --border-radius: 16px;
             --header-height: 60px;
         }
-        
+
         /* Body */
         body {
             font-family: 'Poppins', sans-serif;
@@ -56,17 +58,19 @@
             font-size: 20px;
             font-weight: 500;
         }
-        
+
         .section-title {
             font-size: 20px;
             font-weight: 500;
         }
 
         /* Layout */
-        html, body, .app-container {
+        html,
+        body,
+        .app-container {
             height: 100%;
         }
-        
+
         .app-container {
             display: flex;
             flex-direction: column;
@@ -93,7 +97,7 @@
             position: sticky;
             top: 0;
         }
-        
+
         .search-input {
             width: 100%;
             padding: 8px 15px 8px 45px;
@@ -103,12 +107,12 @@
             background-color: rgba(255, 255, 255, 0.2);
             color: white;
         }
-        
+
         .search-input::placeholder {
             color: white;
             opacity: 0.7;
         }
-        
+
         /* Sidebar Menu */
         .sidebar-container {
             width: 280px;
@@ -118,7 +122,7 @@
             top: var(--header-height);
             align-self: flex-start;
         }
-        
+
         .menu-box {
             background-color: var(--white);
             border-radius: var(--border-radius);
@@ -200,7 +204,7 @@
             width: 18px;
             height: 18px;
         }
-        
+
         .menu-link:hover .menu-icon {
             filter: brightness(0) invert(41%) sepia(86%) saturate(459%) hue-rotate(93deg) brightness(94%) contrast(89%);
         }
@@ -282,7 +286,7 @@
             font-size: 13px;
             color: var(--dark-grey);
         }
-        
+
         /* Main Content Area */
         .main-content {
             flex: 1;
@@ -290,15 +294,15 @@
             overflow-y: auto;
             height: 100%;
         }
-        
+
         /* Card Styling */
         .card {
             border-radius: var(--border-radius);
             border: none;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
             height: 100%;
         }
-        
+
         .text-total-obat {
             color: var(--success);
         }
@@ -324,6 +328,7 @@
         .table tbody tr td {
             border: none;
         }
+
         .table-header {
             background-color: var(--primary);
             color: var(--white);
@@ -342,7 +347,7 @@
         .table-header th:last-child {
             border-radius: 0 16px 0 0;
         }
-        
+
         .page-item:first-child .page-link {
             border-top-left-radius: 0.25rem;
             border-bottom-left-radius: 0.25rem;
@@ -390,22 +395,22 @@
         .page-link:focus {
             z-index: 3;
             outline: 0;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
         }
 
         /* Notification Styling */
         .icon-danger {
             filter: brightness(0) saturate(100%) invert(23%) sepia(83%) saturate(7470%) hue-rotate(356deg) brightness(91%) contrast(121%);
         }
-        
+
         .icon-warning {
             filter: brightness(0) saturate(100%) invert(72%) sepia(78%) saturate(936%) hue-rotate(359deg) brightness(101%) contrast(106%);
         }
-        
+
         .icon-black {
             filter: brightness(0) saturate(100%);
         }
-        
+
         .bg-danger-light {
             background-color: rgba(237, 30, 40, 0.1);
         }
@@ -421,23 +426,25 @@
         .notification-list {
             margin-bottom: 0;
         }
-        
+
         .notification-item {
             padding: 10px;
             border-radius: 8px;
         }
 
-        .table tbody tr, .notification-item {
+        .table tbody tr,
+        .notification-item {
             transition: all 0.3s ease;
         }
-        
-        .table tbody tr:hover, .notification-item:hover {
+
+        .table tbody tr:hover,
+        .notification-item:hover {
             background-color: rgba(0, 0, 0, 0.03);
             transform: translateY(-1px);
             box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
             cursor: pointer;
         }
-        
+
         .notification-icon {
             height: 2rem;
             width: 2rem;
@@ -446,18 +453,18 @@
             align-items: center;
             justify-content: center;
         }
-        
+
         .notification-message {
             font-size: 16px;
             margin-bottom: 5px;
         }
-        
+
         .notification-description {
             font-size: 14px;
             margin-bottom: 5px;
             color: var(--dark-grey);
         }
-        
+
         .badge-tanggal {
             background-color: var(--dark-grey);
             font-size: 14px;
@@ -468,7 +475,7 @@
             min-width: 120px;
             text-align: center;
         }
-        
+
         .view-all-link {
             color: var(--primary);
             text-decoration: none;
@@ -476,11 +483,11 @@
             transition: all 0.2s ease;
             font-weight: 500;
         }
-        
+
         .view-all-link:hover {
             text-decoration: underline;
         }
-        
+
         /* Status Notification */
         .status-notification {
             background-color: #d4edda;
@@ -489,13 +496,14 @@
             border-radius: 5px;
             margin: 1rem;
         }
-        
+
         /* Khusus untuk status notification */
         .status-container {
             width: 100%;
         }
     </style>
 </head>
+
 <body>
     <div class="app-container">
         <!-- Header -->
@@ -513,13 +521,13 @@
 
         <!-- Status Notification -->
         @if(session('status'))
-            <div class="status-container">
-                <div class="status-notification">
-                    {{ session('status') }}
-                </div>
+        <div class="status-container">
+            <div class="status-notification">
+                {{ session('status') }}
             </div>
+        </div>
         @endif
-        
+
         <div class="content-container">
             <!-- Sidebar Menu -->
             <div class="sidebar-container">
@@ -530,7 +538,7 @@
                             <img src="{{ asset('assets/images/MediStock_Icon.png') }}" alt="MediStock Logo" class="logo-image">
                             <span class="logo-text">MediStock</span>
                         </div>
-                        
+
                         <!-- Menu Header -->
                         <div class="menu-header">
                             <span>Menu</span>
@@ -540,8 +548,10 @@
                                 </svg>
                             </button>
                         </div>
-                        
+
                         <ul class="sidebar-menu">
+                            @if(isset($role) && ($role === 'Admin' || $role === 'admin'))
+                            <!-- Menu untuk Admin -->
                             <li class="menu-item">
                                 <a href="{{ route('dashboard') }}" class="menu-link {{ request()->routeIs('dashboard') || request()->is('*expiring-medications*') ? 'active' : '' }}">
                                     <img src="{{ asset('assets/images/dashboard.png') }}" alt="Dashboard" class="menu-icon">
@@ -561,14 +571,29 @@
                                 </a>
                             </li>
                             <li class="menu-item">
-                                <a href="{{ route('reports.monthly') }}" class="menu-link">
+                                <a href="{{ route('reports.monthly') }}" class="menu-link {{ request()->routeIs('reports.monthly') ? 'active' : '' }}">
                                     <img src="{{ asset('assets/images/report.png') }}" alt="Laporan" class="menu-icon">
                                     Laporan
                                 </a>
                             </li>
+                            @elseif(isset($role) && ($role === 'Kasir' || $role === 'kasir'))
+                            <!-- Menu untuk Kasir -->
+                            <li class="menu-item">
+                                <a href="{{ route('kasir.dashboard') }}" class="menu-link {{ request()->routeIs('kasir.dashboard') ? 'active' : '' }}">
+                                    <img src="{{ asset('assets/images/dashboard.png') }}" alt="Dashboard" class="menu-icon">
+                                    Dashboard Kasir
+                                </a>
+                            </li>
+                            <li class="menu-item">
+                                <a href="{{ route('transactions.index') }}" class="menu-link {{ request()->routeIs('transactions.index') || request()->is('*expiring-medications*') ? 'active' : '' }}">
+                                    <img src="{{ asset('assets/images/cart.png') }}" alt="Penjualan" class="menu-icon">
+                                    Penjualan
+                                </a>
+                            </li>
+                            @endif
                         </ul>
                     </div>
-                    
+
                     <div class="menu-box-footer">
                         <!-- Logout button -->
                         <form method="POST" action="{{ route('logout') }}" class="m-0">
@@ -580,15 +605,15 @@
                         </form>
 
                         <div class="menu-divider"></div>
-                        
+
                         <!-- User profile -->
                         <div class="user-profile">
                             <div class="user-avatar">
-                                <span>A</span>
+                                <span>{{ substr($name ?? 'U', 0, 1) }}</span>
                             </div>
                             <div class="user-info">
-                                <div class="user-name">{{ $name ?? 'Nama Admin' }}</div>
-                                <div class="user-role">({{ $role ?? 'Admin' }})</div>
+                                <div class="user-name">{{ $name ?? 'Nama User' }}</div>
+                                <div class="user-role">({{ $role ?? 'User' }})</div>
                             </div>
                         </div>
                     </div>
@@ -602,8 +627,10 @@
             </div>
         </div>
     </div>
-    
+
     <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"></script>
+    @yield('scripts')
 </body>
+
 </html>
