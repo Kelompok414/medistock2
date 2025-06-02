@@ -42,7 +42,7 @@
                         ⚠
                     </div>
                     <div>
-                        <!-- Nama obat yang akan kadaluarsa -->
+                        <!-- Nama obat akan kadaluarsa -->
                         <div class="fw-bold">{{ $batch->medicine->name }} Akan Kadaluarsa</div>
                         <!-- Waktu tersisa sebelum kadaluarsa dalam hari -->
                         <div class="text-muted">Dalam {{ intval(now()->diffInDays($batch->expiry_date)) }} hari</div>
