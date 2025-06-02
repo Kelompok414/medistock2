@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
-use App\Models\SaleItem;
+use App\Models\Saleitem;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
@@ -84,7 +84,7 @@ class AuthController extends Controller
 
         // Data statistik kasir (ganti sesuai struktur tabelmu)
         $totalSales = \App\Models\Transaction::sum('total_price');
-        $totalSoldDrugs = SaleItem::sum('quantity');
+        $totalSoldDrugs = Saleitem::sum('quantity');
         $totalTransactions = \App\Models\Transaction::count();
         $transactions = \App\Models\Transaction::latest()->take(10)->get();
 

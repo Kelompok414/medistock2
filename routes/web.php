@@ -37,9 +37,9 @@ Route::post('/register-kasir', [KasirController::class, 'registerKasir'])->name(
 
 //notifikasi
 Route::get('/notifikasi', [NotificationController::class, 'index'])->name('notifikasi');
-Route::get('/produkkadaluarsa', [NotificationController::class, 'index'])->name('produkkadaluarsa');
-Route::get('/produkhabis', [NotificationController::class, 'index'])->name('produkhabis');
-Route::get('/laporanbulanan', [NotificationController::class, 'index'])->name('laporanbulanan');
+Route::get('/produkkadaluarsa', [NotificationController::class, 'index'])->name('notifikasi.produkkadaluarsa');
+Route::get('/produkhabis', [NotificationController::class, 'index'])->name('notifikasi.produkhabis');
+Route::get('/produkakankadaluarsa', [NotificationController::class, 'index'])->name('notifikasi.produkakankadaluarsa');
 
 Route::resource('transactions', TransactionController::class);
 
