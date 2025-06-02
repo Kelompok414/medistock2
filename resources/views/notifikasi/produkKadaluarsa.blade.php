@@ -41,7 +41,7 @@
                         ✖
                     </div>
                     <div>
-                        <!-- Nama obat dan pesan expired -->
+                        <!-- Nama obat dan pesan expiredd -->
                         <div class="fw-bold">{{ $batch->medicine->name }} Telah Kadaluarsa</div>
                         <!-- Jumlah tablet yang perlu dimusnahkan -->
                         <div class="text-muted">{{ $batch->quantity }} tablet perlu dilakukan pemusnahan.</div>

@@ -17,7 +17,7 @@
                     <th style="padding: 12px; text-align: center; font-weight: 400;">
                         <a href="{{ url('/produkkadaluarsa') }}" style="text-decoration: none; color:white;">Produk Kadaluarsa</a>
                     </th>
-                    <!-- Tab Produk Akan Kadaluarsa -->
+                    <!-- Tab Produk yang Akan Kadaluarsa -->
                     <th style="padding: 12px; text-align: center; font-weight: 400;">
                         <a href="{{ url('/produkakankadaluarsa') }}" style="text-decoration: none; color:white;">Produk Akan Kadaluarsa</a>
                     </th>
