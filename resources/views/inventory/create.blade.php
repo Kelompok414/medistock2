@@ -15,34 +15,40 @@
                 </ul>
             </div>
         @endif
+        
         <!-- Nama Obat -->
         <div class="mb-3">
             <label for="name" class="form-label" style="font-size: 16px;">Nama Obat</label>
             <input type="text" name="name" id="name" class="form-control" style="border-radius: 16px;" required>
         </div>
-
-        <!-- Batch -->
+        
+        <!-- Kategori -->
         <div class="mb-3">
-            <label for="batch" class="form-label" style="font-size: 16px;">Batch</label>
-            <input type="text" name="batch" id="batch" class="form-control" style="border-radius: 16px;" required>
+            <label for="category_id" class="form-label" style="font-size: 16px;">Kategori</label>
+            <select name="category_id" id="category_id" class="form-control" style="border-radius: 16px;" required>
+                <option value="">-- Pilih Kategori --</option>
+                @foreach($categories as $category)
+                    <option value="{{ $category->id }}">{{ $category->name }}</option>
+                @endforeach
+            </select>
+        </div>
+        
+        <!-- Kode Obat -->
+        <div class="mb-3">
+            <label for="code" class="form-label" style="font-size: 16px;">Kode Obat</label>
+            <input type="text" name="code" id="code" class="form-control" style="border-radius: 16px;" required>
         </div>
 
-        <!-- Tanggal Kadaluarsa -->
+        <!-- Dosis -->
         <div class="mb-3">
-            <label for="expiry_date" class="form-label" style="font-size: 16px;">Tanggal Kadaluarsa</label>
-            <input type="date" name="expiry_date" id="expiry_date" class="form-control" style="border-radius: 16px;" required>
+            <label for="dosage" class="form-label" style="font-size: 16px;">Dosis</label>
+            <input type="text" name="dosage" id="dosage" class="form-control" style="border-radius: 16px;" required>
         </div>
 
         <!-- Harga -->
         <div class="mb-3">
             <label for="price" class="form-label" style="font-size: 16px;">Harga (Rp)</label>
-            <input type="number" name="price" id="price" class="form-control" style="border-radius: 16px;" required>
-        </div>
-
-        <!-- Stok -->
-        <div class="mb-3">
-            <label for="stock" class="form-label" style="font-size: 16px;">Stok</label>
-            <input type="number" name="stock" id="stock" class="form-control" style="border-radius: 16px;" required>
+            <input type="number" name="price" id="price" class="form-control" style="border-radius: 16px;" min="0" required>
         </div>
 
         <!-- Tombol -->
