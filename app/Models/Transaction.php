@@ -26,6 +26,6 @@ class Transaction extends Model
 
     public function saleitems()
     {
-        return $this->hasMany(SaleItem::class);
+        return $this->hasMany(Saleitem::class);
     }
 }
