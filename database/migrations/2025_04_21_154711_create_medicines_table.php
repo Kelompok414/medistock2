@@ -17,8 +17,7 @@ return new class extends Migration
             $table->string('name');
             $table->string('code')->unique();
             $table->string('dosage'); // Dosis obat (misal: 500mg)
-            $table->text('description')->nullable();
-            $table->number('price', 10, 2);
+            $table->integer('price');
             $table->foreign('category_id')->references('id')->on('categories')->onDelete('cascade');
             $table->timestamps();
         });
