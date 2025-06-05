@@ -2,9 +2,7 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
-use Spatie\Permission\Models\Role;
 use Illuminate\Support\Facades\Hash;
 use App\Models\User;
 
@@ -15,15 +13,22 @@ class KasirUserSeeder extends Seeder
      */
     public function run()
     {
-        $admin = User::firstOrCreate( // ← ini penting!
-            ['email' => 'kasir@example.com'],
-            [
-                'name' => 'KasirExample',
-                'password' => Hash::make('password'),
-            ]
-        );
+        $kasirData = [
+            ['name' => 'Kasir Satu', 'email' => 'kasir@example.com'],
+            ['name' => 'Kasir Dua', 'email' => 'kasir2@example.com'],
+            ['name' => 'Kasir Tiga', 'email' => 'kasir3@example.com'],
+        ];
 
-        // Assign role setelah user dibuat
-        $admin->assignRole('kasir');
+        foreach ($kasirData as $data) {
+            $kasir = User::firstOrCreate(
+                ['email' => $data['email']],
+                [
+                    'name' => $data['name'],
+                    'password' => Hash::make('password'), // default password
+                ]
+            );
+
+            $kasir->assignRole('kasir');
+        }
     }
 }
