@@ -8,9 +8,6 @@ use App\Models\User;
 
 class KasirUserSeeder extends Seeder
 {
-    /**
-     * Run the database seeds.
-     */
     public function run()
     {
         $kasirData = [
@@ -24,11 +21,22 @@ class KasirUserSeeder extends Seeder
                 ['email' => $data['email']],
                 [
                     'name' => $data['name'],
-                    'password' => Hash::make('password'), // default password
+                    'password' => Hash::make('password'),
                 ]
             );
 
             $kasir->assignRole('kasir');
+
+            // Tambahkan ini untuk pastikan settings dibuat
+            $kasir->setting()->firstOrCreate([], [
+                'language' => 'id',
+                'text_size' => 'default',
+                'font_family' => 'Default',
+                'theme' => 'Default',
+                'brightness' => 100,
+                'dark_mode' => false,
+            ]);
         }
     }
 }
+

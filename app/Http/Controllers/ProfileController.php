@@ -8,12 +8,32 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\View\View;
+use App\Models\User;
+use App\Models\Setting as Tampilan;
 
 class ProfileController extends Controller
 {
     /**
      * Display the user's profile form.
      */
+    public function index()
+    {
+        $user = Auth::user();
+
+        // Retrieve or create display settings for this user
+        $profile = Tampilan::firstOrCreate(
+            ['user_id' => $user->id],
+            [
+                'language' => 'id',
+                'text_size' => 'default',
+                'font_family' => 'Default',
+                'dark_mode' => false,
+            ]
+        );
+
+        return view('profile', compact('user', 'profile'));
+    }
+
     public function edit(Request $request): View
     {
         return view('profile.edit', [
