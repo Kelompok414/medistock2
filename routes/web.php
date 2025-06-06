@@ -9,10 +9,14 @@ use App\Http\Controllers\TransactionController;
 use App\Http\Controllers\ReportController;
 use App\Http\Controllers\AnalyticsController;
 use App\Http\Controllers\MedicineController;
+use App\Http\Controllers\SettingController;
+use App\Http\Controllers\ProfileController;
 
 Route::get('/', function () {
     return view('welcome');
 });
+
+
 
 //login
 Route::get('/login', [AuthController::class, 'form'])->name('login');
@@ -63,3 +67,9 @@ Route::post('/inventory', [MedicineController::class, 'store'])->name('inventory
 Route::get('/inventory/{medicine}/edit', [MedicineController::class, 'edit'])->name('inventory.edit');
 Route::put('/inventory/{medicine}', [MedicineController::class, 'update'])->name('inventory.update');
 Route::delete('/inventory/{medicine}', [MedicineController::class, 'destroy'])->name('inventory.destroy');
+
+Route::get('/user-setting', [ProfileController::class, 'index'])->name('user-setting.index');
+Route::post('/user-setting/update', [ProfileController::class, 'update'])->name('user-setting.update');
+
+Route::get('/user-setting/display', [SettingController::class, 'index'])->name('user-setting.display');
+Route::post('/user-setting/display/update', [SettingController::class, 'update'])->name('user-setting.display.update');

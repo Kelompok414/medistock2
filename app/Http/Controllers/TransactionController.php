@@ -9,14 +9,19 @@ use App\Models\Saleitem;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Auth;
 
 class TransactionController extends Controller
 {
     public function index(Request $request)
     {
-        if (!session()->has('user_id')) {
+        // Cek apakah session user sudah ada
+        if (!Auth::check()) {
             return redirect('/login')->with('error', 'Silakan login terlebih dahulu.');
         }
+
+        // Ambil user dari session
+        $user = Auth::user();
 
         $query = Transaction::with('user');
 
