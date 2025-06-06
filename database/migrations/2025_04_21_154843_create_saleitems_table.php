@@ -16,7 +16,8 @@ return new class extends Migration
             $table->uuid('transaction_id');
             $table->uuid('batch_id');
             $table->integer('quantity');
-            $table->decimal('price_per_unit', 10, 2);
+            $table->integer('price_per_unit');
+            $table->integer('subtotal');
             $table->foreign('transaction_id')->references('id')->on('transactions')->onDelete('cascade');
             $table->foreign('batch_id')->references('id')->on('batches')->onDelete('cascade');
             $table->timestamps();
