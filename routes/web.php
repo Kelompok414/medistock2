@@ -63,3 +63,5 @@ Route::post('/inventory', [MedicineController::class, 'store'])->name('inventory
 Route::get('/inventory/{medicine}/edit', [MedicineController::class, 'edit'])->name('inventory.edit');
 Route::put('/inventory/{medicine}', [MedicineController::class, 'update'])->name('inventory.update');
 Route::delete('/inventory/{medicine}', [MedicineController::class, 'destroy'])->name('inventory.destroy');
+Route::get('medicine/detail/{id}', [MedicineController::class, 'detail'])->name('medicine.detail');
+Route::put('medicine/detail/description/{id}', [MedicineController::class, 'updateDescription'])->name('medicine.update.detail');

@@ -21,6 +21,7 @@ class Medicine extends Model
         'code',
         'dosage',
         'price',
+        'description',
     ];
 
     public function category()
