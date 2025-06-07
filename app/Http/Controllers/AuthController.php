@@ -119,11 +119,5 @@ class AuthController extends Controller
         if (!$user || !$user->hasAnyRole(['admin', 'kasir'])) {
             abort(403, 'Akses ditolak.');
         }
-
-        // Jika lolos, tampilkan halaman
-        return view('notifikasi', [
-            'name' => $user->name,
-            'role' => $user->getRoleNames()->first(), // atau session('user_role') jika disimpan manual
-        ]);
     }
 }

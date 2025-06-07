@@ -627,6 +627,12 @@
                                     Penjualan
                                 </a>
                             </li>
+                            <li class="menu-item">
+                                <a href="{{ route('reports-cashier.monthly') }}" class="menu-link {{ request()->routeIs('reports.cashier') && request('type') === 'monthly' ? 'active' : '' }}">
+                                    <i data-feather="file-text" class="menu-icon"></i>
+                                    Laporan
+                                </a>
+                            </li>
                             @endif
                         </ul>
                     </div>

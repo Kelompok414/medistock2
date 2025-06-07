@@ -9,6 +9,7 @@ use App\Http\Controllers\TransactionController;
 use App\Http\Controllers\ReportController;
 use App\Http\Controllers\AnalyticsController;
 use App\Http\Controllers\MedicineController;
+use App\Http\Controllers\ReportCashierController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -26,7 +27,6 @@ Route::get('/kasir-dashboard', [AuthController::class, 'kasirDashboard'])->name(
 Route::get('/expiring-medications', [App\Http\Controllers\DashboardController::class, 'expiringMedications'])
     ->name('expiring.medications');
 
-
 Route::get('/manajemen-kasir', function () {
     return view('manajemenkasir');
 })->name('manajemen.kasir');
@@ -43,6 +43,7 @@ Route::get('/produkakankadaluarsa', [NotificationController::class, 'index'])->n
 
 Route::resource('transactions', TransactionController::class);
 
+// reports admin
 Route::prefix('reports')->group(function () {
     Route::get('/weekly', [ReportController::class, 'weekly'])->name('reports.weekly');
     Route::get('/monthly', [ReportController::class, 'monthly'])->name('reports.monthly');
@@ -56,6 +57,10 @@ Route::get('reports/annual/export', [ReportController::class, 'exportAnnual'])->
 Route::get('/analytics', [AnalyticsController::class, 'index'])->name('analytics.index');
 Route::get('/analytics/trend/{range}', [AnalyticsController::class, 'getTrend']);
 
+// reports kasir
+Route::get('/reports-cashier/weekly', [ReportCashierController::class, 'weekly'])->name('reports-cashier.weekly');
+Route::get('/reports-cashier/monthly', [ReportCashierController::class, 'monthly'])->name('reports-cashier.monthly');
+Route::get('/reports-cashier/annual', [ReportCashierController::class, 'annual'])->name('reports-cashier.annual');
 // Route untuk halaman inventaris
 Route::get('/inventory', [MedicineController::class, 'index'])->name('inventory.index');
 Route::get('/inventory/create', [MedicineController::class, 'create'])->name('inventory.create');
