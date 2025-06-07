@@ -13,8 +13,8 @@ class SaleitemFactory extends Factory
 
     public function definition()
     {
-        $batch = Batch::factory()->create();
-        $price = $this->faker->randomFloat(2, 5, 100);
+        $batch = Batch::inRandomOrder()->first() ?? Batch::factory()->create();
+        $price = $this->faker->numberBetween(5000, 300000);
         $qty = $this->faker->numberBetween(1, min(5, $batch->quantity));
 
         return [
@@ -23,6 +23,7 @@ class SaleitemFactory extends Factory
             'batch_id' => $batch->id,
             'quantity' => $qty,
             'price_per_unit' => $price,
+            'subtotal' => $qty * $price,
         ];
     }
 }

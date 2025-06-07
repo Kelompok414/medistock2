@@ -1,15 +1,13 @@
 <?php
 
-namespace Database\Factories;
+namespace Database\Seeders;
 
-use Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Database\Seeder;
 use App\Models\Category;
 
-class CategoryFactory extends Factory
+class CategorySeeder extends Seeder
 {
-    protected $model = Category::class;
-
-    public function definition()
+    public function run()
     {
         $categories = [
             'Analgesik',
@@ -26,8 +24,8 @@ class CategoryFactory extends Factory
             'Obat Herbal'
         ];
 
-        return [
-            'name' => $this->faker->unique()->randomElement($categories),
-        ];
+        foreach ($categories as $name) {
+            Category::firstOrCreate(['name' => $name]);
+        }
     }
 }

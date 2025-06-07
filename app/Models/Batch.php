@@ -4,11 +4,12 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Carbon\Carbon;
 
 class Batch extends Model
 {
-    use HasFactory;
+    use HasFactory, SoftDeletes;
 
     public $incrementing = false;
     protected $keyType = 'string';
@@ -25,12 +26,23 @@ class Batch extends Model
         'expiry_date' => 'date',
     ];
 
+    protected static function booted()
+    {
+        static::deleting(function ($batch) {
+            $batch->saleitems()->delete();
+        });
+
+        static::restoring(function ($batch) {
+            $batch->saleitems()->withTrashed()->restore();
+        });
+    }
+
     // Relasi ke obat
     public function medicine()
     {
         return $this->belongsTo(Medicine::class);
     }
-    
+
 
     // Cek apakah batch sudah kadaluarsa
     public function isExpired()
