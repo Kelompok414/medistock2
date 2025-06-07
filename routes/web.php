@@ -79,6 +79,9 @@ Route::get('/inventory/{medicine}/edit', [MedicineController::class, 'edit'])->n
 Route::put('/inventory/{medicine}', [MedicineController::class, 'update'])->name('inventory.update');
 Route::delete('/inventory/{medicine}', [MedicineController::class, 'destroy'])->name('inventory.destroy');
 
+Route::get('medicine/detail/{id}', [MedicineController::class, 'detail'])->name('medicine.detail');
+Route::put('medicine/detail/description/{id}', [MedicineController::class, 'updateDescription'])->name('medicine.update.detail');
+
 Route::get('/user-setting', [ProfileController::class, 'index'])->name('user-setting.index');
 Route::post('/user-setting/update', [ProfileController::class, 'update'])->name('user-setting.update');
 

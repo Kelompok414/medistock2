@@ -22,6 +22,7 @@ class Medicine extends Model
         'code',
         'dosage',
         'price',
+        'description',
     ];
 
     protected static function booted()
