@@ -8,6 +8,7 @@ use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\TransactionController;
 use App\Http\Controllers\ReportController;
 use App\Http\Controllers\AnalyticsController;
+use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\MedicineController;
 use App\Http\Controllers\SettingController;
 use App\Http\Controllers\ProfileController;
@@ -15,8 +16,6 @@ use App\Http\Controllers\ProfileController;
 Route::get('/', function () {
     return view('welcome');
 });
-
-
 
 //login
 Route::get('/login', [AuthController::class, 'form'])->name('login');
@@ -45,7 +44,19 @@ Route::get('/produkkadaluarsa', [NotificationController::class, 'index'])->name(
 Route::get('/produkhabis', [NotificationController::class, 'index'])->name('notifikasi.produkhabis');
 Route::get('/produkakankadaluarsa', [NotificationController::class, 'index'])->name('notifikasi.produkakankadaluarsa');
 
-Route::resource('transactions', TransactionController::class);
+Route::get('/transactions', [TransactionController::class, 'index'])->name('transactions.index');
+Route::get('/transactions/create', [TransactionController::class, 'create'])->name('transactions.create');
+Route::post('/transactions', [TransactionController::class, 'store'])->name('transactions.store');
+Route::get('/transactions/{transaction}/edit', [TransactionController::class, 'edit'])->name('transactions.edit');
+Route::put('/transactions/{transaction}', [TransactionController::class, 'update'])->name('transactions.update');
+Route::delete('/transactions/{transaction}', [TransactionController::class, 'destroy'])->name('transactions.destroy');
+
+Route::get('/categories', [CategoryController::class, 'index'])->name('categories.index');
+Route::get('/categories/create', [CategoryController::class, 'create'])->name('categories.create');
+Route::post('/categories', [CategoryController::class, 'store'])->name('categories.store');
+Route::get('/categories/{category}/edit', [CategoryController::class, 'edit'])->name('categories.edit');
+Route::put('/categories/{category}', [CategoryController::class, 'update'])->name('categories.update');
+Route::delete('/categories/{category}', [CategoryController::class, 'destroy'])->name('categories.destroy');
 
 Route::prefix('reports')->group(function () {
     Route::get('/weekly', [ReportController::class, 'weekly'])->name('reports.weekly');
