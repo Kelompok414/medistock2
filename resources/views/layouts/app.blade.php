@@ -614,6 +614,13 @@
                                 </a>
                             </li>
                             <li class="menu-item">
+                                <a href="{{ route('categories.index') }}"
+                                    class="menu-link {{ request()->routeIs('categories.index') ? 'active' : '' }}">
+                                    <i data-feather="layers" class="menu-icon"></i>
+                                    Kategori
+                                </a>
+                            </li>
+                            <li class="menu-item">
                                 <a href="{{ route('manajemen.kasir') }}"
                                     class="menu-link {{ request()->routeIs('manajemen.kasir') ? 'active' : '' }}">
                                     <i data-feather="users" class="menu-icon"></i>
@@ -648,7 +655,7 @@
                             <li class="menu-item">
                                 <a href="{{ route('user-setting.display') }}"
                                     class="menu-link {{ request()->routeIs('user-setting.display') || request()->is('*expiring-medications*') ? 'active' : '' }}">
-                                    <i data-feather="setting" class="menu-icon"></i>
+                                    <i data-feather="monitor" class="menu-icon"></i>
                                     Tampilan
                                 </a>
                             </li>
