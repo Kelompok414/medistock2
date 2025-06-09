@@ -13,6 +13,21 @@ class User extends Authenticatable
     /** @use HasFactory<\Database\Factories\UserFactory> */
     use HasFactory, HasRoles, Notifiable;
 
+    protected static function booted()
+    {
+        static::created(function ($user) {
+            $user->setting()->create([
+                'language' => 'id',
+                'text_size' => 'default',
+                'font_family' => 'Default',
+                'theme' => 'Default',
+                'brightness' => 100,
+                'dark_mode' => false,
+            ]);
+        });
+    }
+
+
     /**
      * The attributes that are mass assignable.
      *
@@ -46,4 +61,10 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+
+    public function setting()
+    {
+        return $this->hasOne(Setting::class);
+    }
+
 }

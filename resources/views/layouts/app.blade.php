@@ -11,7 +11,8 @@
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.bunny.net">
     <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
 
     <!-- Feather Icons -->
     <link rel="stylesheet" href="https://unpkg.com/feather-icons/dist/feather.css">
@@ -542,16 +543,22 @@
 </head>
 
 <body>
+    @php
+    $user = Auth::user();
+    @endphp
     <div class="app-container">
         <!-- Header -->
         <header class="app-header">
             <div style="position: relative; width: 80%; max-width: 600px;">
                 <input type="text" placeholder="Looking for something?" class="search-input">
-                <img src="{{ asset('assets/images/search.png') }}" alt="Search" style="position: absolute; left: 15px; top: 50%; transform: translateY(-50%); width: 20px; height: 20px; opacity: 0.7;">
+                <img src="{{ asset('assets/images/search.png') }}" alt="Search"
+                    style="position: absolute; left: 15px; top: 50%; transform: translateY(-50%); width: 20px; height: 20px; opacity: 0.7;">
             </div>
             <div style="margin-left: 15px;">
-                <button style="background-color: rgba(255, 255, 255, 0.2); border: none; border-radius: 50%; width: 40px; height: 40px; display: flex; align-items: center; justify-content: center; cursor: pointer;">
-                    <img src="{{ asset('assets/images/bell.png') }}" alt="Notifications" style="width: 20px; height: 20px;">
+                <button
+                    style="background-color: rgba(255, 255, 255, 0.2); border: none; border-radius: 50%; width: 40px; height: 40px; display: flex; align-items: center; justify-content: center; cursor: pointer;">
+                    <img src="{{ asset('assets/images/bell.png') }}" alt="Notifications"
+                        style="width: 20px; height: 20px;">
                 </button>
             </div>
         </header>
@@ -572,7 +579,8 @@
                     <div class="menu-box-content">
                         <!-- Logo dan Nama Website-->
                         <div class="app-logo">
-                            <img src="{{ asset('assets/images/MediStock_Icon.png') }}" alt="MediStock Logo" class="logo-image">
+                            <img src="{{ asset('assets/images/MediStock_Icon.png') }}" alt="MediStock Logo"
+                                class="logo-image">
                             <span class="logo-text">MediStock</span>
                         </div>
 
@@ -580,49 +588,64 @@
                         <div class="menu-header">
                             <span>Menu</span>
                             <button class="btn p-0">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"
+                                    fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                    stroke-linejoin="round">
                                     <polyline points="6 9 12 15 18 9"></polyline>
                                 </svg>
                             </button>
                         </div>
 
                         <ul class="sidebar-menu">
-                            @if(session('role') == 'admin')
+                            @if(Auth::user()->hasRole('admin'))
                             <!-- Menu untuk Admin -->
                             <li class="menu-item">
-                                <a href="{{ route('dashboard') }}" class="menu-link {{ request()->routeIs('dashboard') || request()->is('*expiring-medications*') ? 'active' : '' }}">
+                                <a href="{{ route('dashboard') }}"
+                                    class="menu-link {{ request()->routeIs('dashboard') || request()->is('*expiring-medications*') ? 'active' : '' }}">
                                     <i data-feather="home" class="menu-icon"></i>
                                     Dashboard
                                 </a>
                             </li>
                             <li class="menu-item">
-                                <a href="{{ route('inventory.index') }}" class="menu-link {{ request()->routeIs('inventory.index') ? 'active' : '' }}">
+                                <a href="{{ route('inventory.index') }}"
+                                    class="menu-link {{ request()->routeIs('inventory.index') ? 'active' : '' }}">
                                     <i data-feather="package" class="menu-icon"></i>
                                     Inventaris
                                 </a>
                             </li>
                             <li class="menu-item">
-                                <a href="{{ route('manajemen.kasir') }}" class="menu-link {{ request()->routeIs('manajemen.kasir') ? 'active' : '' }}">
+                                <a href="{{ route('categories.index') }}"
+                                    class="menu-link {{ request()->routeIs('categories.index') ? 'active' : '' }}">
+                                    <i data-feather="layers" class="menu-icon"></i>
+                                    Kategori
+                                </a>
+                            </li>
+                            <li class="menu-item">
+                                <a href="{{ route('manajemen.kasir') }}"
+                                    class="menu-link {{ request()->routeIs('manajemen.kasir') ? 'active' : '' }}">
                                     <i data-feather="users" class="menu-icon"></i>
                                     Manajemen Kasir
                                 </a>
                             </li>
                             <li class="menu-item">
-                                <a href="{{ route('reports.monthly') }}" class="menu-link {{ request()->routeIs('reports.monthly') ? 'active' : '' }}">
+                                <a href="{{ route('reports.monthly') }}"
+                                    class="menu-link {{ request()->routeIs('reports.monthly') ? 'active' : '' }}">
                                     <i data-feather="file" class="menu-icon"></i>
                                     Laporan
                                 </a>
                             </li>
-                            @elseif(session('role') == 'kasir')
+                            @elseif(Auth::user()->hasRole('kasir'))
                             <!-- Menu untuk Kasir -->
                             <li class="menu-item">
-                                <a href="{{ route('kasir.dashboard') }}" class="menu-link {{ request()->routeIs('kasir.dashboard') ? 'active' : '' }}">
+                                <a href="{{ route('kasir.dashboard') }}"
+                                    class="menu-link {{ request()->routeIs('kasir.dashboard') ? 'active' : '' }}">
                                     <i data-feather="home" class="menu-icon"></i>
                                     Dashboard
                                 </a>
                             </li>
                             <li class="menu-item">
-                                <a href="{{ route('transactions.index') }}" class="menu-link {{ request()->routeIs('transactions.index') || request()->is('*expiring-medications*') ? 'active' : '' }}">
+                                <a href="{{ route('transactions.index') }}"
+                                    class="menu-link {{ request()->routeIs('transactions.index') || request()->is('*expiring-medications*') ? 'active' : '' }}">
                                     <i data-feather="shopping-cart" class="menu-icon"></i>
                                     Penjualan
                                 </a>
@@ -634,6 +657,14 @@
                                 </a>
                             </li>
                             @endif
+
+                            <li class="menu-item">
+                                <a href="{{ route('user-setting.display') }}"
+                                    class="menu-link {{ request()->routeIs('user-setting.display') || request()->is('*expiring-medications*') ? 'active' : '' }}">
+                                    <i data-feather="monitor" class="menu-icon"></i>
+                                    Tampilan
+                                </a>
+                            </li>
                         </ul>
                     </div>
 
@@ -650,15 +681,19 @@
                         <div class="menu-divider"></div>
 
                         <!-- User profile -->
-                        <div class="user-profile">
-                            <div class="user-avatar">
-                                <span>{{ substr($name ?? 'U', 0, 1) }}</span>
+                        <a href="{{ route('user-setting.index') }}"
+                            class="menu-link">
+                            <div class="user-profile">
+                                <div class="user-avatar">
+                                    <span>{{ substr($user?->name ?? 'U', 0, 1) }}</span>
+                                </div>
+                                <div class="user-info">
+                                    <div class="user-name">{{ $user?->name ?? 'Nama User' }}</div>
+                                    <div class="user-role">({{ $user?->getRoleNames()->first() ?? 'User' }})</div>
+                                </div>
                             </div>
-                            <div class="user-info">
-                                <div class="user-name">{{ $name ?? 'Nama User' }}</div>
-                                <div class="user-role">({{ $role ?? 'User' }})</div>
-                            </div>
-                        </div>
+                        </a>
+
                     </div>
                 </div>
             </div>
