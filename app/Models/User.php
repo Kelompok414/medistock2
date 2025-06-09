@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-// use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -20,9 +19,7 @@ class User extends Authenticatable
                 'language' => 'id',
                 'text_size' => 'default',
                 'font_family' => 'Default',
-                'theme' => 'Default',
-                'brightness' => 100,
-                'dark_mode' => false,
+                'dark_mode' => false, 
             ]);
         });
     }
@@ -34,9 +31,12 @@ class User extends Authenticatable
      * @var list<string>
      */
     protected $fillable = [
-        'name',
+        'name', // Ditambahkan
         'email',
         'password',
+        'phone',
+        'gender',
+        'birthday',
     ];
 
     /**
@@ -59,12 +59,12 @@ class User extends Authenticatable
         return [
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
+            'birthday' => 'date', 
         ];
     }
 
-    public function setting()
+    public function setting() 
     {
         return $this->hasOne(Setting::class);
     }
-
 }

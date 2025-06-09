@@ -88,7 +88,8 @@ Route::get('medicine/detail/{id}', [MedicineController::class, 'detail'])->name(
 Route::put('medicine/detail/description/{id}', [MedicineController::class, 'updateDescription'])->name('medicine.update.detail');
 
 Route::get('/user-setting', [ProfileController::class, 'index'])->name('user-setting.index');
-Route::post('/user-setting/update', [ProfileController::class, 'update'])->name('user-setting.update');
+Route::put('/user-setting/update', [ProfileController::class, 'update'])->name('profile.update');
 
+//tampilan
 Route::get('/user-setting/display', [SettingController::class, 'index'])->name('user-setting.display');
 Route::post('/user-setting/display/update', [SettingController::class, 'update'])->name('user-setting.display.update');

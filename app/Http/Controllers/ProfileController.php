@@ -8,19 +8,16 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\View\View;
-use App\Models\User;
 use App\Models\Setting as Tampilan;
 
 class ProfileController extends Controller
 {
-    /**
-     * Display the user's profile form.
-     */
-    public function index()
+
+    public function index(): View
     {
         $user = Auth::user();
 
-        // Retrieve or create display settings for this user
+        
         $profile = Tampilan::firstOrCreate(
             ['user_id' => $user->id],
             [
@@ -34,47 +31,37 @@ class ProfileController extends Controller
         return view('profile', compact('user', 'profile'));
     }
 
-    public function edit(Request $request): View
+
+    public function update(ProfileUpdateRequest $request): RedirectResponse
     {
-        return view('profile.edit', [
-            'user' => $request->user(),
-        ]);
+        $user = $request->user();
+
+        $user->fill($request->validated());
+
+        if ($user->isDirty('email')) {
+            $user->email_verified_at = null;
+        }
+
+        $user->save();
+
+        return Redirect::route('user-setting.index')->with('success', 'Profil berhasil diperbarui.');
     }
 
-    /**
-     * Update the user's profile information.
-     */
-    // public function update(ProfileUpdateRequest $request): RedirectResponse
-    // {
-    //     $request->user()->fill($request->validated());
+    public function destroy(Request $request): RedirectResponse
+    {
+        $request->validateWithBag('userDeletion', [
+            'password' => ['required', 'current_password'],
+        ]);
 
-    //     if ($request->user()->isDirty('email')) {
-    //         $request->user()->email_verified_at = null;
-    //     }
+        $user = $request->user();
 
-    //     $request->user()->save();
+        Auth::logout();
 
-    //     return Redirect::route('profile.edit')->with('status', 'profile-updated');
-    // }
+        $user->delete();
 
-    /**
-     * Delete the user's account.
-     */
-    // public function destroy(Request $request): RedirectResponse
-    // {
-    //     $request->validateWithBag('userDeletion', [
-    //         'password' => ['required', 'current_password'],
-    //     ]);
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
 
-    //     $user = $request->user();
-
-    //     Auth::logout();
-
-    //     $user->delete();
-
-    //     $request->session()->invalidate();
-    //     $request->session()->regenerateToken();
-
-    //     return Redirect::to('/');
-    // }
+        return Redirect::to('/');
+    }
 }
