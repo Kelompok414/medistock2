@@ -96,4 +96,37 @@ class MedicineController extends Controller
 
         return redirect()->route('inventory.index')->with('success', 'Obat berhasil dihapus.');
     }
+    public function detail(Request $request, $id)
+    {
+        $medicine = Medicine::with('category')->where('id', $id)->first();
+
+        // return response($medicine);
+
+        return view('medicine-view-detail', compact('medicine'));
+    }
+
+    public function updateDescription(Request $request, $id)
+    {
+        $medicine = Medicine::with('category')->where('id', $id)->first();
+
+        $validated = $request->validate([
+            'description' => 'required',
+        ]);
+
+        $input = $request->only('description');
+
+        if (!$medicine) {
+            return redirect()->route('medicine.detail', $id)->with('error', 'Data error!');
+        }
+
+        $update = $medicine->update($input);
+
+        if (!$update) {
+            return redirect()->route('medicine.detail', $id)->with('error', 'Data error!');
+        }
+
+        // return response($medicine);
+
+        return redirect()->route('medicine.detail', $id)->with('success', 'Data Updated!');
+    }
 }

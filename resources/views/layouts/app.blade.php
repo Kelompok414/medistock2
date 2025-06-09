@@ -902,6 +902,13 @@ if (Auth::check()) {
                                 </a>
                             </li>
                             <li class="menu-item">
+                                <a href="{{ route('categories.index') }}"
+                                    class="menu-link {{ request()->routeIs('categories.index') ? 'active' : '' }}">
+                                    <i data-feather="layers" class="menu-icon"></i>
+                                    Kategori
+                                </a>
+                            </li>
+                            <li class="menu-item">
                                 <a href="{{ route('manajemen.kasir') }}"
                                     class="menu-link {{ Request::routeIs('manajemen.kasir') ? 'active' : '' }}">
                                     <i data-feather="users" class="menu-icon"></i>
@@ -928,6 +935,12 @@ if (Auth::check()) {
                                     class="menu-link {{ Request::routeIs('transactions.index') || Request::is('*expiring-medications*') ? 'active' : '' }}">
                                     <i data-feather="shopping-cart" class="menu-icon"></i>
                                     Penjualan
+                                </a>
+                            </li>
+                            <li class="menu-item">
+                                <a href="{{ route('reports-cashier.monthly') }}" class="menu-link {{ request()->routeIs('reports.cashier') && request('type') === 'monthly' ? 'active' : '' }}">
+                                    <i data-feather="file-text" class="menu-icon"></i>
+                                    Laporan
                                 </a>
                             </li>
                             @endif
