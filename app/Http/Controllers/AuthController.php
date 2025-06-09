@@ -111,12 +111,12 @@ class AuthController extends Controller
     public function notifikasi()
     {
         // Cek apakah user sudah login
-        if (!session()->has('user_id')) {
+        if (!Auth::check()) {
             return redirect('/login')->with('error', 'Silakan login terlebih dahulu.');
         }
 
-        // Ambil user berdasarkan ID dari session
-        $user = User::find(session('user_id'));
+        // Ambil user dari session
+        $user = Auth::user();
 
         // Cek apakah user punya role admin atau kasir
         if (!$user || !$user->hasAnyRole(['admin', 'kasir'])) {
