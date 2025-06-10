@@ -8,16 +8,12 @@ use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\TransactionController;
 use App\Http\Controllers\ReportController;
 use App\Http\Controllers\AnalyticsController;
-<<<<<<< HEAD
 use App\Http\Controllers\MedicineController;
-=======
 use App\Http\Controllers\CategoryController;
-use App\Http\Controllers\MedicineController;
 use App\Http\Controllers\ReportCashierController;
 use App\Http\Controllers\SettingController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\DashboardController;
->>>>>>> main
 
 Route::get('/', function () {
     return view('welcome');
@@ -82,9 +78,7 @@ Route::get('reports/annual/export', [ReportController::class, 'exportAnnual'])->
 Route::get('/analytics', [AnalyticsController::class, 'index'])->name('analytics.index');
 Route::get('/analytics/trend/{range}', [AnalyticsController::class, 'getTrend']);
 
-<<<<<<< HEAD
 Route::get('/obat-menipis', [MedicineController::class, 'lowStock'])->name('medicines.low-stock');
-=======
 // reports kasir
 Route::get('/reports-cashier/weekly', [ReportCashierController::class, 'weekly'])->name('reports-cashier.weekly');
 Route::get('/reports-cashier/monthly', [ReportCashierController::class, 'monthly'])->name('reports-cashier.monthly');
@@ -107,4 +101,3 @@ Route::put('/user-setting/update', [ProfileController::class, 'update'])->name('
 //tampilan
 Route::get('/user-setting/display', [SettingController::class, 'index'])->name('user-setting.display');
 Route::post('/user-setting/display/update', [SettingController::class, 'update'])->name('user-setting.display.update');
->>>>>>> main
