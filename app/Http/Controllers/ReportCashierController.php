@@ -44,7 +44,7 @@ class ReportCashierController extends Controller
 
     public function monthly(Request $request)
     {
-        $userId = session('user_id');
+        $user = Auth::user();
 
         $month = $request->get('month', now()->month);
         $year = $request->get('year', now()->year);
@@ -80,7 +80,7 @@ class ReportCashierController extends Controller
 
     public function annual(Request $request)
     {
-        $userId = session('user_id');
+        $user = Auth::user();
 
         $year = $request->get('year', now()->year);
         $allowedYears = range(2023, 2025);
