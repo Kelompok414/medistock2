@@ -848,11 +848,13 @@ if (Auth::check()) {
                     style="position: absolute; left: 15px; top: 50%; transform: translateY(-50%); width: 20px; height: 20px; opacity: 0.7;">
             </div>
             <div style="margin-left: 15px;">
+                <a href="{{ url('/notifikasi') }}">
                 <button
                     style="background-color: rgba(255, 255, 255, 0.2); border: none; border-radius: 50%; width: 40px; height: 40px; display: flex; align-items: center; justify-content: center; cursor: pointer;">
                     <img src="{{ asset('assets/images/bell.png') }}" alt="Notifications"
                         style="width: 20px; height: 20px;">
                 </button>
+                </a>
             </div>
         </header>
 
