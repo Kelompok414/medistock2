@@ -25,7 +25,7 @@ class ReportCashierController extends Controller
         $endDate = $startDate->copy()->addDays(6)->endOfDay();
 
         $transactions = Transaction::with(['saleitems.batch.medicine', 'user'])
-            ->where('user_id', session('user_id'))
+            ->where('user_id', Auth::id())
             ->whereBetween('transaction_date', [$startDate, $endDate])
             ->paginate(10);
 
@@ -44,7 +44,7 @@ class ReportCashierController extends Controller
 
     public function monthly(Request $request)
     {
-        $userId = session('user_id');
+        $user = Auth::user();
 
         $month = $request->get('month', now()->month);
         $year = $request->get('year', now()->year);
@@ -58,7 +58,7 @@ class ReportCashierController extends Controller
         $endDate = $startDate->copy()->endOfMonth();
 
         $transactions = Transaction::with(['saleitems.batch.medicine', 'user'])
-            ->where('user_id', session('user_id'))
+            ->where('user_id', Auth::id())
             ->whereBetween('transaction_date', [$startDate, $endDate])
             ->paginate(10);
 
@@ -80,7 +80,7 @@ class ReportCashierController extends Controller
 
     public function annual(Request $request)
     {
-        $userId = session('user_id');
+        $user = Auth::user();
 
         $year = $request->get('year', now()->year);
         $allowedYears = range(2023, 2025);
@@ -93,7 +93,7 @@ class ReportCashierController extends Controller
         $endDate = Carbon::create($year)->endOfYear();
 
         $transactions = Transaction::with(['saleitems.batch.medicine', 'user'])
-            ->where('user_id', session('user_id'))
+            ->where('user_id', Auth::id())
             ->whereBetween('transaction_date', [$startDate, $endDate])
             ->paginate(10);
 
