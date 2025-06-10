@@ -11,34 +11,47 @@ class NotificationController extends Controller
 {
     public function index()
     {
-        $route = Route::currentRouteName(); // Menentukan route yang diakses
+        $route = Route::currentRouteName(); // Mengambil nama rute saat ini (untuk menentukan tampilan apa yang dipanggil)
 
-        $today = Carbon::today();
-        $nextMonth = $today->copy()->addMonth();
+        $today = Carbon::today(); // Tanggal hari ini
+        $nextMonth = $today->copy()->addMonth(); // Tanggal satu bulan ke depan
 
-        // Ambil semua data
-        $expiredBatches = Batch::with('medicine')
+        // Ambil semua batch yang SUDAH KADALUARSA (expired)
+        $expiredBatches = Batch::with('medicine') // ikut ambil relasi data obat
             ->where('expiry_date', '<', $today)
             ->get();
 
+        // Ambil semua batch yang MENDEKATI KADALUARSA (antara hari ini hingga sebulan ke depan)
         $nearExpiredBatches = Batch::with('medicine')
             ->whereBetween('expiry_date', [$today, $nextMonth])
             ->get();
 
+        // Ambil semua batch yang HABIS (quantity ≤ 0)
         $emptyBatches = Batch::with('medicine')
             ->where('quantity', '<=', 0)
             ->get();
 
-        if ($route === 'produkkadaluarsa') {
-            return view('produkkadaluarsa', [
+        // Menentukan tampilan mana yang akan ditampilkan berdasarkan route yang diakses
+        if ($route === 'notifikasi.produkkadaluarsa') {
+            // Jika route saat ini adalah 'produkkadaluarsa', tampilkan hanya produk yang sudah expired
+            return view('notifikasi.produkkadaluarsa', [
                 'expiredBatches' => $expiredBatches,
             ]);
-        } elseif ($route === 'produkhabis') {
-            return view('produkhabis', [
+
+        } elseif ($route === 'notifikasi.produkhabis') {
+            // Jika route saat ini adalah 'produkhabis', tampilkan hanya produk yang habis stok
+            return view('notifikasi.produkhabis', [
                 'emptyBatches' => $emptyBatches,
             ]);
-        } else { // 'notifikasi'
-            return view('notifikasi', [
+
+        } elseif ($route === 'notifikasi.produkakankadaluarsa') {
+            // Jika route saat ini adalah 'produkhabis', tampilkan hanya produk yang habis stok
+            return view('notifikasi.produkakankadaluarsa', [
+                'nearExpiredBatches' => $nearExpiredBatches,
+            ]);
+        } else { // default: route 'notifikasi'
+            // Jika route default (notifikasi), tampilkan semua kategori notifikasi
+            return view('notifikasi.notifikasi', [
                 'expiredBatches' => $expiredBatches,
                 'nearExpiredBatches' => $nearExpiredBatches,
                 'emptyBatches' => $emptyBatches,

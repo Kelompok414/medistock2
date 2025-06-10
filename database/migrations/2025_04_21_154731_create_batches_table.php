@@ -14,10 +14,12 @@ return new class extends Migration
         Schema::create('batches', function (Blueprint $table) {
             $table->uuid('id')->primary();
             $table->uuid('medicine_id');
+            $table->uuid('purchase_item_id');
             $table->string('batch_number')->unique();
             $table->integer('quantity');
             $table->date('expiry_date');
             $table->foreign('medicine_id')->references('id')->on('medicines')->onDelete('cascade');
+            $table->foreign('purchase_item_id')->references('id')->on('purchase_items')->onDelete('cascade');
             $table->timestamps();
         });
     }

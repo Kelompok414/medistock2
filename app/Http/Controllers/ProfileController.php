@@ -8,53 +8,60 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\View\View;
+use App\Models\Setting as Tampilan;
 
 class ProfileController extends Controller
 {
-    /**
-     * Display the user's profile form.
-     */
-    public function edit(Request $request): View
+
+    public function index(): View
     {
-        return view('profile.edit', [
-            'user' => $request->user(),
-        ]);
+        $user = Auth::user();
+
+        
+        $profile = Tampilan::firstOrCreate(
+            ['user_id' => $user->id],
+            [
+                'language' => 'id',
+                'text_size' => 'default',
+                'font_family' => 'Default',
+                'dark_mode' => false,
+            ]
+        );
+
+        return view('profile', compact('user', 'profile'));
     }
 
-    /**
-     * Update the user's profile information.
-     */
-    // public function update(ProfileUpdateRequest $request): RedirectResponse
-    // {
-    //     $request->user()->fill($request->validated());
 
-    //     if ($request->user()->isDirty('email')) {
-    //         $request->user()->email_verified_at = null;
-    //     }
+    public function update(ProfileUpdateRequest $request): RedirectResponse
+    {
+        $user = $request->user();
 
-    //     $request->user()->save();
+        $user->fill($request->validated());
 
-    //     return Redirect::route('profile.edit')->with('status', 'profile-updated');
-    // }
+        if ($user->isDirty('email')) {
+            $user->email_verified_at = null;
+        }
 
-    /**
-     * Delete the user's account.
-     */
-    // public function destroy(Request $request): RedirectResponse
-    // {
-    //     $request->validateWithBag('userDeletion', [
-    //         'password' => ['required', 'current_password'],
-    //     ]);
+        $user->save();
 
-    //     $user = $request->user();
+        return Redirect::route('user-setting.index')->with('success', 'Profil berhasil diperbarui.');
+    }
 
-    //     Auth::logout();
+    public function destroy(Request $request): RedirectResponse
+    {
+        $request->validateWithBag('userDeletion', [
+            'password' => ['required', 'current_password'],
+        ]);
 
-    //     $user->delete();
+        $user = $request->user();
 
-    //     $request->session()->invalidate();
-    //     $request->session()->regenerateToken();
+        Auth::logout();
 
-    //     return Redirect::to('/');
-    // }
+        $user->delete();
+
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
+
+        return Redirect::to('/');
+    }
 }

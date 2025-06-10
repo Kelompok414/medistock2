@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-// use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -13,15 +12,31 @@ class User extends Authenticatable
     /** @use HasFactory<\Database\Factories\UserFactory> */
     use HasFactory, HasRoles, Notifiable;
 
+    protected static function booted()
+    {
+        static::created(function ($user) {
+            $user->setting()->create([
+                'language' => 'id',
+                'text_size' => 'default',
+                'font_family' => 'Default',
+                'dark_mode' => false, 
+            ]);
+        });
+    }
+
+
     /**
      * The attributes that are mass assignable.
      *
      * @var list<string>
      */
     protected $fillable = [
-        'name',
+        'name', // Ditambahkan
         'email',
         'password',
+        'phone',
+        'gender',
+        'birthday',
     ];
 
     /**
@@ -44,6 +59,12 @@ class User extends Authenticatable
         return [
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
+            'birthday' => 'date', 
         ];
+    }
+
+    public function setting() 
+    {
+        return $this->hasOne(Setting::class);
     }
 }

@@ -1,71 +1,153 @@
 @extends('layouts.app')
 
 @section('content')
-<!-- Header -->
-<div style="background-color: #279B48; height: 50px; width: 100%;"></div>
+<div class="mx-auto px-4 sm:px-6 lg:px-8 py-6">
 
-<div class="d-flex" style="background-color: #F5F5F5; min-height: 100vh;">
-    @include('partials.sidebar')
+    <!-- Filter Form -->
+    <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-200 mb-8">
+        <h2 class="text-xl font-semibold text-gray-900 mb-5">Penjualan</h2>
 
-    <!-- Main Content -->
-    <div class="flex-grow-1 p-4">
-        <div class="d-flex justify-content-between align-items-center mb-4">
-            <h2>Transactions</h2>
-            <a href="{{ route('transactions.create') }}" class="btn btn-success">+ New Transaction</a>
-        </div>
+        <form method="GET" id="filter-form" action="{{ route('transactions.index') }}">
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-4 items-end">
 
-        <form method="GET" id="filter-form" action="{{ route('transactions.index') }}" class="mb-4">
-            <div class="row g-2 align-items-end">
-                <div class="col-md-3">
-                    <label for="user">Search User</label>
-                    <input type="text" name="user" id="user-search" class="form-control" placeholder="User name">
+                <!-- Search User -->
+                <div class="lg:col-span-4">
+                    <label for="user" class="block text-sm font-medium text-gray-700 mb-1">🔍 Cari User</label>
+                    <input type="text" name="user" id="user-search"
+                        value="{{ request('user') }}"
+                        class="w-full rounded-lg border border-gray-300 px-4 py-2 text-sm focus:ring-2 focus:ring-primary focus:border-primary transition"
+                        placeholder="Nama pengguna...">
                 </div>
-                <div class="col-md-3">
-                    <label for="from_date">From Date</label>
-                    <input type="date" name="from_date" id="from_date" class="form-control" value="{{ request('from_date') }}">
+
+                <!-- From Date -->
+                <div class="lg:col-span-2">
+                    <label for="from_date" class="block text-sm font-medium text-gray-700 mb-1">📅 Dari Tanggal</label>
+                    <input type="date" name="from_date" id="from_date" value="{{ request('from_date') }}"
+                        class="w-full rounded-lg border border-gray-300 px-4 py-2 text-sm focus:ring-2 focus:ring-primary focus:border-primary transition">
                 </div>
-                <div class="col-md-3">
-                    <label for="to_date">To Date</label>
-                    <input type="date" name="to_date" id="to_date" class="form-control" value="{{ request('to_date') }}">
+
+                <!-- To Date -->
+                <div class="lg:col-span-2">
+                    <label for="to_date" class="block text-sm font-medium text-gray-700 mb-1">📅 Sampai Tanggal</label>
+                    <input type="date" name="to_date" id="to_date" value="{{ request('to_date') }}"
+                        class="w-full rounded-lg border border-gray-300 px-4 py-2 text-sm focus:ring-2 focus:ring-primary focus:border-primary transition">
                 </div>
-                <div class="col-md-3 d-flex">
-                    <button type="submit" class="btn btn-success me-2">Filter</button>
-                    <a href="{{ route('transactions.index') }}" class="btn btn-secondary">Reset</a>
+
+                <!-- Buttons -->
+                <div class="lg:col-span-2 flex gap-2">
+                    <button type="submit"
+                        class="w-full bg-primary text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-primary-dark transition">
+                        🔎 Filter
+                    </button>
+                    <a href="{{ route('transactions.index') }}"
+                        class="w-full bg-gray-100 text-gray-700 px-4 py-2 rounded-lg text-sm font-medium hover:bg-gray-200 text-center transition">
+                        ❌ Reset
+                    </a>
                 </div>
+
             </div>
         </form>
+    </div>
 
-        <div class="card">
-            <div class="card-body">
-                <div id="transaction-table">
-                    @include('transactions.partials.table-transactions', ['transactions' => $transactions])
-                </div>
-            </div>
+    <!-- Transaction Table Card -->
+    <div class="bg-white rounded-lg shadow-md overflow-hidden">
+        <div class="p-6" id="transaction-table">
+            <a href="{{ route('transactions.create') }}"
+                class="inline-flex items-center gap-1 mb-4 px-3 py-1 bg-primary text-white rounded-md transition">
+                + Tambah Transaksi
+            </a>
+            @include('transactions.partials.table-transactions', ['transactions' => $transactions])
         </div>
     </div>
+
 </div>
 @endsection
 
 @push('scripts')
 <script>
-    document.addEventListener('DOMContentLoaded', function() {
-        const searchInput = document.getElementById('user-search');
+    document.addEventListener('DOMContentLoaded', () => {
+        const userInput = document.getElementById('user-search');
+        const fromDate = document.getElementById('from_date');
+        const toDate = document.getElementById('to_date');
+        const tableContainer = document.getElementById('transaction-table');
 
-        searchInput.addEventListener('keyup', function() {
-            const user = searchInput.value;
-            const from_date = document.getElementById('from_date').value;
-            const to_date = document.getElementById('to_date').value;
+        // Current sort state
+        let currentSortColumn = '{{ request("sort_column", "transaction_date") }}';
+        let currentSortDir = '{{ request("sort_dir", "desc") }}';
 
-            fetch(`{{ route('transactions.index') }}?user=${user}&from_date=${from_date}&to_date=${to_date}`, {
+        // Helper to build query params including filters and sort
+        function buildQuery(sortColumn = currentSortColumn, sortDir = currentSortDir) {
+            const params = new URLSearchParams();
+            if (userInput.value.trim()) params.append('user', userInput.value.trim());
+            if (fromDate.value) params.append('from_date', fromDate.value);
+            if (toDate.value) params.append('to_date', toDate.value);
+            if (sortColumn) params.append('sort_column', sortColumn);
+            if (sortDir) params.append('sort_dir', sortDir);
+            return params.toString();
+        }
+
+        // Fetch table with filters and sorting
+        function fetchTable(sortColumn = currentSortColumn, sortDir = currentSortDir) {
+            currentSortColumn = sortColumn;
+            currentSortDir = sortDir;
+
+            fetch(`{{ route('transactions.index') }}?${buildQuery(sortColumn, sortDir)}`, {
                     headers: {
                         'X-Requested-With': 'XMLHttpRequest'
                     }
                 })
-                .then(response => response.text())
+                .then(res => res.text())
                 .then(html => {
-                    document.getElementById('transaction-table').innerHTML = html;
+                    tableContainer.innerHTML = html;
+                    updateSortIndicators();
+                    bindHeaderClicks();
                 });
+        }
+
+        // Update sort indicators on header arrows
+        function updateSortIndicators() {
+            document.querySelectorAll('th[data-sort-column]').forEach(th => {
+                const col = th.getAttribute('data-sort-column');
+                const arrowUp = '▲';
+                const arrowDown = '▼';
+
+                if (col === currentSortColumn) {
+                    th.setAttribute('data-sort-dir', currentSortDir === 'asc' ? 'asc' : 'desc');
+                    th.innerHTML = th.textContent.trim().replace(/[▲▼]/g, '') + (currentSortDir === 'asc' ? ` ${arrowUp}` : ` ${arrowDown}`);
+                } else {
+                    th.setAttribute('data-sort-dir', 'asc'); // default next click is asc
+                    th.innerHTML = th.textContent.trim().replace(/[▲▼]/g, '');
+                }
+            });
+        }
+
+        // Bind click events on sortable headers
+        function bindHeaderClicks() {
+            document.querySelectorAll('th[data-sort-column]').forEach(th => {
+                th.style.cursor = 'pointer';
+                th.onclick = () => {
+                    const col = th.getAttribute('data-sort-column');
+                    let dir = th.getAttribute('data-sort-dir') === 'asc' ? 'desc' : 'asc';
+                    fetchTable(col, dir);
+                };
+            });
+        }
+
+        // Bind filter inputs to fetch table on change
+        [userInput, fromDate, toDate].forEach(el => {
+            el.addEventListener('change', () => fetchTable());
+            if (el === userInput) {
+                let debounceTimeout;
+                el.addEventListener('keyup', () => {
+                    clearTimeout(debounceTimeout);
+                    debounceTimeout = setTimeout(() => fetchTable(), 300);
+                });
+            }
         });
+
+        // Initial setup
+        updateSortIndicators();
+        bindHeaderClicks();
     });
 </script>
 @endpush
