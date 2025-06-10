@@ -195,11 +195,9 @@ class KasirController extends Controller
 
     public function expiringMedications()
     {
-        // Cek apakah session user sudah ada
-        if (!session()->has('user_id')) {
+        if (!Auth::check()) {
             return redirect('/login')->with('error', 'Silakan login terlebih dahulu.');
         }
-
         // Fetch only medications that will expire soon (in 3 months)
         $threeMonthsFromNow = Carbon::now()->addMonths(3);
 

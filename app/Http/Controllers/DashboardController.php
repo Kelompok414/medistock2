@@ -144,7 +144,7 @@ class DashboardController extends Controller
     public function expiringMedications()
     {
         // Cek apakah session user sudah ada
-        if (!session()->has('user_id')) {
+        if (!Auth::check()) {
             return redirect('/login')->with('error', 'Silakan login terlebih dahulu.');
         }
         
