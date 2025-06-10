@@ -4,6 +4,11 @@
 <!-- Main Content -->
 <div class="rounded-4 p-4" style="background-color: #FFFFFF; border-radius: 16px;">
     <h1 style="font-size: 24px; font-weight: 500;">Edit Obat</h1>
+                     <a href="{{ route('medicine.detail', $medicine->id) }}"
+                       class="btn btn-icon btn-light-warning"
+                       style="border-radius: 8px; padding: 4px 7px; font-size: 16px; margin-right: 4px; box-shadow: none;">
+                        <i data-feather="edit-3"></i>edit description
+                    </a>   
     <form action="{{ route('inventory.update', $medicine->id) }}" method="POST" style="margin-top: 20px;">
         @csrf
         @method('PUT')

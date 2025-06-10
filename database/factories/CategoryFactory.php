@@ -11,8 +11,23 @@ class CategoryFactory extends Factory
 
     public function definition()
     {
+        $categories = [
+            'Analgesik',
+            'Antibiotik',
+            'Antiseptik',
+            'Antipiretik',
+            'Antihistamin',
+            'Dekongestan',
+            'Obat Batuk',
+            'Obat Lambung',
+            'Vitamin & Suplemen',
+            'Obat Topikal',
+            'Obat Mata',
+            'Obat Herbal'
+        ];
+
         return [
-            'name' => $this->faker->unique()->word(),
+            'name' => $this->faker->unique()->randomElement($categories),
         ];
     }
 }
