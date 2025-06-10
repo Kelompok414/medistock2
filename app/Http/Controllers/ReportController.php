@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Transaction;
 use Illuminate\Support\Facades\Auth;
 use Carbon\Carbon;
-use PDF; // Library untuk generate PDF
+use Barryvdh\DomPDF\Facade\Pdf; // Library untuk generate PDF
 
 class ReportController extends Controller
 {
@@ -56,7 +56,7 @@ class ReportController extends Controller
             ->get();
 
         // Generate PDF
-        $pdf = PDF::loadView('reports.pdf_weekly', [
+        $pdf = Pdf::loadView('reports.pdf_weekly', [
             'transactions' => $transactions,
             'title' => "Weekly Report - Week $week",
             'startDate' => $startDate,
@@ -119,7 +119,7 @@ class ReportController extends Controller
             ->with(['saleitems.batch.medicine'])
             ->get();
 
-        $pdf = PDF::loadView('reports.pdf_monthly', [
+        $pdf = Pdf::loadView('reports.pdf_monthly', [
             'transactions' => $transactions,
             'title' => "Monthly Report - $month/$year",
             'startDate' => $startDate,
@@ -174,7 +174,7 @@ class ReportController extends Controller
             ->with(['saleitems.batch.medicine'])
             ->get();
 
-        $pdf = PDF::loadView('reports.pdf_annual', [
+        $pdf = Pdf::loadView('reports.pdf_annual', [
             'transactions' => $transactions,
             'title' => "Annual Report - $year",
             'startDate' => $startDate,
