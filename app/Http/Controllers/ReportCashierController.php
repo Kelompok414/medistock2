@@ -25,7 +25,7 @@ class ReportCashierController extends Controller
         $endDate = $startDate->copy()->addDays(6)->endOfDay();
 
         $transactions = Transaction::with(['saleitems.batch.medicine', 'user'])
-            ->where('user_id', session('user_id'))
+            ->where('user_id', Auth::id())
             ->whereBetween('transaction_date', [$startDate, $endDate])
             ->paginate(10);
 
@@ -58,7 +58,7 @@ class ReportCashierController extends Controller
         $endDate = $startDate->copy()->endOfMonth();
 
         $transactions = Transaction::with(['saleitems.batch.medicine', 'user'])
-            ->where('user_id', session('user_id'))
+            ->where('user_id', Auth::id())
             ->whereBetween('transaction_date', [$startDate, $endDate])
             ->paginate(10);
 
@@ -93,7 +93,7 @@ class ReportCashierController extends Controller
         $endDate = Carbon::create($year)->endOfYear();
 
         $transactions = Transaction::with(['saleitems.batch.medicine', 'user'])
-            ->where('user_id', session('user_id'))
+            ->where('user_id', Auth::id())
             ->whereBetween('transaction_date', [$startDate, $endDate])
             ->paginate(10);
 
