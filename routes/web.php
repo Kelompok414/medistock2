@@ -76,6 +76,7 @@ Route::get('/analytics/trend/{range}', [AnalyticsController::class, 'getTrend'])
 Route::get('/reports-cashier/weekly', [ReportCashierController::class, 'weekly'])->name('reports-cashier.weekly');
 Route::get('/reports-cashier/monthly', [ReportCashierController::class, 'monthly'])->name('reports-cashier.monthly');
 Route::get('/reports-cashier/annual', [ReportCashierController::class, 'annual'])->name('reports-cashier.annual');
+
 // Route untuk halaman inventaris
 Route::get('/inventory', [MedicineController::class, 'index'])->name('inventory.index');
 Route::get('/inventory/create', [MedicineController::class, 'create'])->name('inventory.create');

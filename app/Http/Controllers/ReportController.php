@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Transaction;
+use Illuminate\Support\Facades\Auth;
 use Carbon\Carbon;
 use PDF; // Library untuk generate PDF
 
@@ -15,6 +16,8 @@ class ReportController extends Controller
 
     public function weekly(Request $request)
     {
+        $user = Auth::user();
+
         // Ambil parameter week dari request, default ke minggu ke-1
         $week = $request->get('week', 1);
         $now = Carbon::now();

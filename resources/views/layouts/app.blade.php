@@ -974,7 +974,7 @@ if (Auth::check()) {
 
                         <div class="menu-divider"></div>
 
-                        @if ($user)
+                        @if (Auth::check())
                         <a href="{{ route('user-setting.index') }}" class="menu-link">
                             <div class="user-profile">
                                 <div class="user-avatar">

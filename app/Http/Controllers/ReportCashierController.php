@@ -16,18 +16,7 @@ class ReportCashierController extends Controller
     public function weekly(Request $request)
     {
         $user = Auth::user();
-
-        if (!$user) {
-            abort(403, 'Belum login.');
-        }
-
-        // Debug role user
-        dd($user->role);
-
-        if ($user->role !== 'kasir') {
-            abort(403, 'Akses hanya untuk kasir.');
-        }
-
+        
         $week = $request->get('week', 1);
         $now = Carbon::now();
 
