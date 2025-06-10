@@ -193,53 +193,6 @@ class KasirController extends Controller
         return view('admin.index', $data);
     }
 
-    public function expiringMedications()
-    {
-        if (!Auth::check()) {
-            return redirect('/login')->with('error', 'Silakan login terlebih dahulu.');
-        }
-        // Fetch only medications that will expire soon (in 3 months)
-        $threeMonthsFromNow = Carbon::now()->addMonths(3);
-
-        $expiringMedicationsQuery = DB::table('batches')
-            ->join('medicine', 'batches.medicine_id', '=', 'medicine.id')
-            ->select(
-                'medicine.name as nama',
-                'batches.batch_number as batch',
-                'batches.expiry_date as tanggal_kadaluarsa_raw',
-                'batches.quantity as stok_raw'
-            )
-            ->where('batches.expiry_date', '<=', $threeMonthsFromNow)
-            ->where('batches.expiry_date', '>', Carbon::now())
-            ->orderBy('batches.expiry_date');
-
-        // Pagination with 10 items per page
-        $expiringMedicationsPaginated = $expiringMedicationsQuery->paginate(10);
-
-        // Transform data for display
-        $expiringMedications = collect($expiringMedicationsPaginated->items())->map(function ($item) {
-            $expiryDate = Carbon::parse($item->tanggal_kadaluarsa_raw);
-            $sisaHari = (int)($expiryDate->diffInDays(Carbon::now(), false) * -1);
-
-            return [
-                'nama' => $item->nama,
-                'batch' => $item->batch,
-                'tanggal_kadaluarsa' => $expiryDate->format('d M Y'),
-                'sisa_hari' => $sisaHari,
-                'stok' => $item->stok_raw . ' Tablet',
-                'status' => 'Akan Kadaluarsa'
-            ];
-        })->toArray();
-
-        return view('expiring-medications', [
-            'name' => session('user_name'),
-            'role' => session('user_role'),
-            'expiringMedications' => $expiringMedications,
-            'expiringMedicationsPaginator' => $expiringMedicationsPaginated,
-            'totalAkanKadaluarsa' => $expiringMedicationsPaginated->total()
-        ]);
-    }
-
     // hasil notifikasi berdasarkan data obat
     private function generateNotifications($pengingatKadaluarsa)
     {
