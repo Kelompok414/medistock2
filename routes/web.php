@@ -13,10 +13,20 @@ use App\Http\Controllers\MedicineController;
 use App\Http\Controllers\ReportCashierController;
 use App\Http\Controllers\SettingController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\DashboardController;
 
 Route::get('/', function () {
     return view('welcome');
 });
+
+Route::get('/manajemen-kasir', [KasirController::class, 'showManajemenKasir'])->name('manajemen.kasir');
+Route::get('/register-kasir', [KasirController::class, 'showRegisterKasir'])->name('register.kasir');
+Route::post('/register-kasir', [KasirController::class, 'registerKasir'])->name('store.kasir');
+Route::get('/update-kasir/{id}', [KasirController::class, 'showUpdateKasir'])->name('update.kasir');
+Route::put('/update-kasir/{id}', [KasirController::class, 'updateKasir'])->name('update.kasir');
+Route::delete('/delete-kasir/{id}', [KasirController::class, 'deleteKasir'])->name('delete.kasir');
+// Route for low stock medications
+Route::get('/low-stock', [MedicineController::class, 'lowStock'])->name('medicines.low-stock');
 
 //login
 Route::get('/login', [AuthController::class, 'form'])->name('login');
@@ -27,16 +37,12 @@ Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 Route::get('/dashboard', [AuthController::class, 'dashboard'])->name('dashboard'); // Admin Dashboard
 Route::get('/kasir-dashboard', [AuthController::class, 'kasirDashboard'])->name('kasir.dashboard'); // Kasir Dashboard
 
-Route::get('/expiring-medications', [App\Http\Controllers\DashboardController::class, 'expiringMedications'])
+Route::get('/expiring-medications', [DashboardController::class, 'expiringMedications'])
     ->name('expiring.medications');
 
-Route::get('/manajemen-kasir', function () {
-    return view('manajemenkasir');
-})->name('manajemen.kasir');
-
 //register kasir
-Route::get('/register-kasir', [KasirController::class, 'showRegisterKasir'])->name('registerkasir');
-Route::post('/register-kasir', [KasirController::class, 'registerKasir'])->name('register.kasir');
+// Route::get('/register-kasir', [KasirController::class, 'showRegisterKasir'])->name('registerkasir');
+// Route::post('/register-kasir', [KasirController::class, 'registerKasir'])->name('register.kasir');
 
 //notifikasi
 Route::get('/notifikasi', [NotificationController::class, 'index'])->name('notifikasi');

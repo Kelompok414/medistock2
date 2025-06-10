@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Medicine;
 use App\Models\Category;
 use Illuminate\Http\Request;
+use App\Models\Batch;
 
 class MedicineController extends Controller
 {
@@ -21,8 +22,8 @@ class MedicineController extends Controller
             ->when($search, function ($query, $search) {
                 $query->where(function ($q) use ($search) {
                     $q->where('name', 'ILIKE', "%{$search}%")
-                      ->orWhere('code', 'ILIKE', "%{$search}%")
-                      ->orWhere('dosage', 'ILIKE', "%{$search}%");
+                        ->orWhere('code', 'ILIKE', "%{$search}%")
+                        ->orWhere('dosage', 'ILIKE', "%{$search}%");
                 });
             })
             ->orderBy($sort, $direction)
@@ -128,5 +129,36 @@ class MedicineController extends Controller
         // return response($medicine);
 
         return redirect()->route('medicine.detail', $id)->with('success', 'Data Updated!');
+    }
+
+    public function lowStock()
+    {
+        // Ambang batas stok rendah (misal < 10)
+        $lowStockThreshold = 10;
+
+        // Ambil batch obat yang stoknya rendah dengan paginate 10
+        $lowStockBatches = Batch::with('medicine')
+            ->where('quantity', '<', $lowStockThreshold)
+            ->orderBy('quantity', 'asc')
+            ->paginate(10);
+
+        // Untuk looping di blade, pakai collection dari paginate items
+        // Jadi data ini adalah koleksi yang sudah di-paginate
+        $lowStockList = $lowStockBatches->map(function ($item) {
+            return [
+                'nama' => $item->medicine->name ?? '-',
+                'batch' => $item->batch_number,
+                'stok' => $item->quantity,
+                'tanggal_kadaluarsa' => $item->expiry_date->format('Y-m-d'),
+                'sisa_hari' => now()->diffInDays($item->expiry_date, false),
+                'status' => 'Stok Menipis',
+            ];
+        });
+
+        return view('medicines/lowStockMedicine', [
+            'totalStokMenipis' => $lowStockBatches->total(), // total data di pagination
+            'lowStockMedications' => $lowStockList,
+            'lowStockPaginator' => $lowStockBatches, // objek paginator untuk paginasi di view
+        ]);
     }
 }
