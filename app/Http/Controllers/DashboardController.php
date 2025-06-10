@@ -47,7 +47,7 @@ class DashboardController extends Controller
             ->count();
         
         // Menghitung obat dengan stok menipis (di bawah 30)
-        $stokMenipis = Batch::where('quantity', '<', 30)
+        $stokMenipis = Batch::where('quantity', '<', 10)
             ->where('quantity', '>', 0)
             ->count();
         
