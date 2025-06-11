@@ -54,7 +54,7 @@
                         @foreach ($transactions->take(10) as $transaction)
                             <tr>
                                 <td style="padding: 12px; text-align: center;">
-                                    {{ $transaction->user->name ?? '-' }}
+                                    {{ $transaction->customer_name ?? '-' }}
                                 </td>
                                 <td style="padding: 12px; text-align: center;">
                                     {{ \Carbon\Carbon::parse($transaction->transaction_date)->format('d-m-Y') }}

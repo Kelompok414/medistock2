@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Validation\ValidationException;
 
 class TransactionController extends Controller
 {
@@ -20,15 +21,16 @@ class TransactionController extends Controller
             return redirect('/login')->with('error', 'Silakan login terlebih dahulu.');
         }
 
-        // Ambil user dari session
+        // Ambil user
         $user = Auth::user();
 
-        $query = Transaction::with('user');
 
-        if ($request->filled('user')) {
-            $query->whereHas('user', function ($q) use ($request) {
-                $q->where('name', 'like', '%' . $request->user . '%');
-            });
+        $query = Transaction::query();
+
+        // dd($query);
+        if ($request->filled('customer_name')) {
+            // dd($request);
+            $query->where('customer_name', 'like', '%' . $request->customer_name . '%');
         }
 
         if ($request->filled('from_date')) {
@@ -65,9 +67,10 @@ class TransactionController extends Controller
 
     public function create()
     {
-        if (!session()->has('user_id')) {
+        if (!Auth::check()) {
             return redirect('/login')->with('error', 'Silakan login terlebih dahulu.');
         }
+
         $batches = Batch::with('medicine')
             ->where('quantity', '>', 0)
             ->where('expiry_date', '>', now())
@@ -79,38 +82,53 @@ class TransactionController extends Controller
 
     public function store(Request $request)
     {
-        $request->validate([
-            'customer_name' => 'required|string|max:255',
-            'total_price' => 'required|numeric|min:0',
-            'items' => 'required|array|min:1',
-            'items.*.batch_id' => 'required|exists:batches,id',
-            'items.*.quantity' => 'required|integer|min:1',
-            'items.*.price_per_unit' => 'required|numeric|min:0',
-        ]);
+        if (!Auth::check()) {
+            return redirect('/login')->with('error', 'Silakan login terlebih dahulu.');
+        }
+
+        $user = Auth::user();
+
+        try {
+            $request->validate([
+                'customer_name' => 'required|string|max:255',
+                'total_price' => 'required|integer|min:0',
+                'items' => 'required|array|min:1',
+                'items.*.batch_id' => 'required|exists:batches,id',
+                'items.*.quantity' => 'required|integer|min:1',
+                'items.*.price_per_unit' => 'required|integer|min:0',
+            ]);
+        } catch (ValidationException $e) {
+            return redirect()->back()
+                ->withInput()
+                ->with('error', 'Error creating transaction: ' . $e->getMessage());
+        }
 
         DB::beginTransaction();
 
         try {
             // Create or find user with customer name
-            $user = User::firstOrCreate(
-                ['name' => $request->customer_name],
-                [
-                    'email' => strtolower(str_replace(' ', '', $request->customer_name)) . '@customer.local',
-                    'password' => bcrypt('defaultpassword'),
-                    'role' => 'customer'
-                ]
-            );
+            // $user = User::firstOrCreate(
+            //     ['name' => $request->customer_name],
+            //     [
+            //         'email' => strtolower(str_replace(' ', '', $request->customer_name)) . '@customer.local',
+            //         'password' => bcrypt('defaultpassword'),
+            //         'role' => 'customer'
+            //     ]
+            // );
+            // dd($request->all());
 
             // Create transaction
             $transaction = Transaction::create([
                 'id' => Str::uuid(),
                 'user_id' => $user->id,
                 'total_price' => $request->total_price,
+                'customer_name' => $request->customer_name,
                 'transaction_date' => now(),
             ]);
 
             // Process each item
             foreach ($request->items as $item) {
+                // dd($item);
                 $batch = Batch::findOrFail($item['batch_id']);
 
                 // Check stock availability
@@ -125,6 +143,7 @@ class TransactionController extends Controller
                     'batch_id' => $item['batch_id'],
                     'quantity' => $item['quantity'],
                     'price_per_unit' => $item['price_per_unit'],
+                    'subtotal' => $item['quantity'] * $item['price_per_unit'],
                 ]);
 
                 // Update batch quantity
@@ -147,9 +166,10 @@ class TransactionController extends Controller
 
     public function show($id)
     {
-        if (!session()->has('user_id')) {
+        if (!Auth::check()) {
             return redirect('/login')->with('error', 'Silakan login terlebih dahulu.');
         }
+
         $transaction = Transaction::with([
             'user',
             'saleitems.batch.medicine'
@@ -161,9 +181,10 @@ class TransactionController extends Controller
 
     public function edit(Transaction $transaction)
     {
-        if (!session()->has('user_id')) {
+        if (!Auth::check()) {
             return redirect('/login')->with('error', 'Silakan login terlebih dahulu.');
         }
+
         $transaction->load('saleitems.batch.medicine');
         $users = User::all();
         $batches = \App\Models\Batch::with('medicine')->get();
@@ -172,42 +193,64 @@ class TransactionController extends Controller
     }
     public function update(Request $request, Transaction $transaction)
     {
-        $request->validate([
-            'user_id' => 'required|exists:users,id',
-            'total_price' => 'required|numeric',
-            'transaction_date' => 'required|date',
-            'items' => 'required|array',
-            'items.*.batch_id' => 'required|exists:batches,id',
-            'items.*.quantity' => 'required|integer|min:1',
-            'items.*.price_per_unit' => 'required|numeric|min:0',
-        ]);
-
-        // Update data utama transaksi
-        $transaction->update([
-            'user_id' => $request->user_id,
-            'total_price' => $request->total_price,
-            'transaction_date' => $request->transaction_date,
-        ]);
-
-        // Hapus item lama
-        $transaction->saleitems()->delete();
-
-        // Tambahkan item baru
-        foreach ($request->items as $item) {
-            $transaction->saleitems()->create([
-                'id' => Str::uuid(),
-                'batch_id' => $item['batch_id'],
-                'quantity' => $item['quantity'],
-                'price_per_unit' => $item['price_per_unit'],
+        if (!Auth::check()) {
+            return redirect('/login')->with('error', 'Silakan login terlebih dahulu.');
+        }
+        try {
+            $request->validate([
+                'user_id' => 'required|exists:users,id',
+                'total_price' => 'required|numeric',
+                'transaction_date' => 'required|date',
+                'items' => 'required|array',
+                'items.*.batch_id' => 'required|exists:batches,id',
+                'items.*.quantity' => 'required|integer|min:1',
+                'items.*.price_per_unit' => 'required|numeric|min:0',
             ]);
+        } catch (ValidationException $e) {
+            return redirect()->back()
+                ->withInput()
+                ->with('error', 'Error creating transaction: ' . $e->getMessage());
         }
 
-        return redirect()->route('transactions.index')->with('success', 'Transaction updated.');
+        try {
+            // Update data utama transaksi
+            $transaction->update([
+                'user_id' => $request->user_id,
+                'total_price' => $request->total_price,
+                'transaction_date' => $request->transaction_date,
+            ]);
+
+            // Hapus item lama
+            $transaction->saleitems()->delete();
+
+            // Tambahkan item baru
+            foreach ($request->items as $item) {
+                $transaction->saleitems()->create([
+                    'id' => Str::uuid(),
+                    'batch_id' => $item['batch_id'],
+                    'quantity' => $item['quantity'],
+                    'price_per_unit' => $item['price_per_unit'],
+                    'subtotal' => $item['quantity'] * $item['price_per_unit'],
+                ]);
+            }
+
+            return redirect()->route('transactions.index')->with('success', 'Transaction updated.');
+        } catch (\Exception $e) {
+            DB::rollback();
+
+            return redirect()->back()
+                ->withInput()
+                ->with('error', 'Error updating transaction: ' . $e->getMessage());
+        }
     }
 
 
     public function destroy(Transaction $transaction)
     {
+        if (!Auth::check()) {
+            return redirect('/login')->with('error', 'Silakan login terlebih dahulu.');
+        }
+
         $transaction->delete();
         return redirect()->route('transactions.index')->with('success', 'Transaction deleted.');
     }

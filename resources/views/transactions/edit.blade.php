@@ -17,24 +17,34 @@
 
         <div class="card shadow-sm">
             <div class="card-body">
+                @if(session('error'))
+                <div class="alert alert-danger">
+                    {{ session('error') }}
+                </div>
+                @endif
                 <form id="transactionForm" action="{{ route('transactions.update', $transaction->id) }}" method="POST">
                     @csrf
                     @method('PUT')
 
-                    {{-- User --}}
-                    <div class="mb-3">
-                        <label for="user_id" class="form-label">Pelanggan</label>
-                        <select name="user_id" id="user_id" class="form-select" required>
-                            @foreach($users as $user)
-                            <option value="{{ $user->id }}" {{ $transaction->user_id == $user->id ? 'selected' : '' }}>
-                                {{ $user->name }}
-                            </option>
-                            @endforeach
-                        </select>
+                    @php
+                    $user = Auth::user();
+                    @endphp
+
+                    {{-- Pelanggan --}}
+                    <div class="mb-3 w-96">
+                        <input type="hidden" name="user_id" class="form-control" id="user_id"
+                            value="{{ $user->id }}" readonly>
+                    </div>
+
+                    {{-- Pelanggan --}}
+                    <div class="mb-3 w-96">
+                        <label for="customer_name" class="form-label">Pelanggan</label>
+                        <input type="text" name="customer_name" class="form-control" id="customer_name"
+                            value="{{ $transaction->customer_name }}" readonly>
                     </div>
 
                     {{-- Tanggal Transaksi --}}
-                    <div class="mb-3">
+                    <div class="mb-3 w-96">
                         <label for="transaction_date" class="form-label">Tanggal Transaksi</label>
                         <input type="datetime-local" name="transaction_date" id="transaction_date" class="form-control"
                             value="{{ $transaction->transaction_date->format('Y-m-d\TH:i') }}" required>
@@ -64,7 +74,7 @@
 
                                 <div class="col-md-3">
                                     <label class="form-label">Harga Satuan</label>
-                                    <input disabled type="number" name="items[{{ $index }}][price_per_unit]" class="form-control price-input" value="{{ $item->price_per_unit }}" min="0" step="0.01" required>
+                                    <input type="number" name="items[{{ $index }}][price_per_unit]" class="form-control price-input" value="{{ $item->price_per_unit }}" min="0" step="0.01" required readonly>
                                 </div>
 
                                 <div class="col-md-3">
@@ -79,7 +89,8 @@
                     {{-- Total --}}
                     <div class="mt-4">
                         <label for="total_price" class="form-label">Total Harga</label>
-                        <input type="text" value="{{ $transaction->total_price }}" name="total_price" id="total_price" class="form-control bg-light" readonly>
+                        <input type="hidden" name="total_price" id="total_price_raw" value="{{ $transaction->total_price }}">
+                        <input type="text" class="form-control bg-light" id="total_price" value="{{ number_format($transaction->total_price, 0, ',', '.') }}" readonly>
                     </div>
 
                     <button type="submit" class="btn btn-primary mt-4">Simpan Perubahan</button>
@@ -135,8 +146,11 @@
         });
 
         const totalPriceInput = document.getElementById('total_price');
-        if (totalPriceInput) {
+        const totalPriceRaw = document.getElementById('total_price_raw');
+
+        if (totalPriceInput && totalPriceRaw) {
             totalPriceInput.value = formatCurrency(total);
+            totalPriceRaw.value = total;
         }
     }
 

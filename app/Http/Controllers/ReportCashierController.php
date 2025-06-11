@@ -15,8 +15,10 @@ class ReportCashierController extends Controller
 
     public function weekly(Request $request)
     {
-        $user = Auth::user();
-        
+        if (!Auth::check()) {
+            return redirect('/login')->with('error', 'Silakan login terlebih dahulu.');
+        }
+
         $week = $request->get('week', 1);
         $now = Carbon::now();
 
@@ -44,7 +46,9 @@ class ReportCashierController extends Controller
 
     public function monthly(Request $request)
     {
-        $user = Auth::user();
+        if (!Auth::check()) {
+            return redirect('/login')->with('error', 'Silakan login terlebih dahulu.');
+        }
 
         $month = $request->get('month', now()->month);
         $year = $request->get('year', now()->year);
@@ -80,7 +84,9 @@ class ReportCashierController extends Controller
 
     public function annual(Request $request)
     {
-        $user = Auth::user();
+        if (!Auth::check()) {
+            return redirect('/login')->with('error', 'Silakan login terlebih dahulu.');
+        }
 
         $year = $request->get('year', now()->year);
         $allowedYears = range(2023, 2025);

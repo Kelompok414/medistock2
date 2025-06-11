@@ -12,11 +12,11 @@
 
                 <!-- Search User -->
                 <div class="lg:col-span-4">
-                    <label for="user" class="block text-sm font-medium text-gray-700 mb-1">🔍 Cari User</label>
-                    <input type="text" name="user" id="user-search"
-                        value="{{ request('user') }}"
+                    <label for="customer_name" class="block text-sm font-medium text-gray-700 mb-1">🔍 Cari Pelanggan</label>
+                    <input type="text" name="customer_name" id="user-search"
+                        value="{{ request('customer_name') }}"
                         class="w-full rounded-lg border border-gray-300 px-4 py-2 text-sm focus:ring-2 focus:ring-primary focus:border-primary transition"
-                        placeholder="Nama pengguna...">
+                        placeholder="Nama customer...">
                 </div>
 
                 <!-- From Date -->
@@ -36,7 +36,7 @@
                 <!-- Buttons -->
                 <div class="lg:col-span-2 flex gap-2">
                     <button type="submit"
-                        class="w-full bg-primary text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-primary-dark transition">
+                        class="w-full bg-[#279B48] text-white px-4 py-2 rounded-lg text-sm font-medium">
                         🔎 Filter
                     </button>
                     <a href="{{ route('transactions.index') }}"
@@ -53,7 +53,7 @@
     <div class="bg-white rounded-lg shadow-md overflow-hidden">
         <div class="p-6" id="transaction-table">
             <a href="{{ route('transactions.create') }}"
-                class="inline-flex items-center gap-1 mb-4 px-3 py-1 bg-primary text-white rounded-md transition">
+                class="inline-flex items-center gap-1 mb-4 px-4 py-2 bg-[#279B48] text-white rounded-md transition">
                 + Tambah Transaksi
             </a>
             @include('transactions.partials.table-transactions', ['transactions' => $transactions])
@@ -78,7 +78,7 @@
         // Helper to build query params including filters and sort
         function buildQuery(sortColumn = currentSortColumn, sortDir = currentSortDir) {
             const params = new URLSearchParams();
-            if (userInput.value.trim()) params.append('user', userInput.value.trim());
+            if (userInput.value.trim()) params.append('customer_name', userInput.value.trim());
             if (fromDate.value) params.append('from_date', fromDate.value);
             if (toDate.value) params.append('to_date', toDate.value);
             if (sortColumn) params.append('sort_column', sortColumn);

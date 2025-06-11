@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\Setting; 
+use App\Models\Setting;
 use App\Models\User;
 use App\Models\Font;
 use Illuminate\Support\Facades\Auth;
@@ -51,6 +51,11 @@ class SettingController extends Controller
      */
     public function update(Request $request)
     {
+        if (!Auth::check()) {
+            return redirect('/login')->with('error', 'Silakan login terlebih dahulu.');
+        }
+
+        // Ambil user
         $user = Auth::user();
 
         $validated = $request->validate([
@@ -66,7 +71,7 @@ class SettingController extends Controller
         );
 
         return redirect()
-            ->route('user-setting.display') 
+            ->route('user-setting.display')
             ->with('success', 'Pengaturan tampilan berhasil diperbarui.');
     }
 
@@ -77,7 +82,7 @@ class SettingController extends Controller
             'default'     => '16px',
             'medium'      => '18px',
             'large'       => '22px',
-            'extra_large' => '26px', 
+            'extra_large' => '26px',
             default       => '16px',
         };
     }

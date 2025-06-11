@@ -56,9 +56,6 @@ class AuthController extends Controller
             return redirect('/login')->with('error', 'Silakan login terlebih dahulu.');
         }
 
-        // Ambil user dari session
-        // $user = Auth::user();
-
         // get data dummy
         $dashboardData = app('App\Http\Controllers\DashboardController')->admin();
 

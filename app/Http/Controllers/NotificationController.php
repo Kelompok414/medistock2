@@ -6,11 +6,16 @@ use Illuminate\Http\Request;
 use Carbon\Carbon;
 use App\Models\Batch;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Auth;
 
 class NotificationController extends Controller
 {
     public function index()
     {
+        if (!Auth::check()) {
+            return redirect('/login')->with('error', 'Silakan login terlebih dahulu.');
+        }
+
         $route = Route::currentRouteName(); // Mengambil nama rute saat ini (untuk menentukan tampilan apa yang dipanggil)
 
         $today = Carbon::today(); // Tanggal hari ini
@@ -37,13 +42,11 @@ class NotificationController extends Controller
             return view('notifikasi.produkkadaluarsa', [
                 'expiredBatches' => $expiredBatches,
             ]);
-
         } elseif ($route === 'notifikasi.produkhabis') {
             // Jika route saat ini adalah 'produkhabis', tampilkan hanya produk yang habis stok
             return view('notifikasi.produkhabis', [
                 'emptyBatches' => $emptyBatches,
             ]);
-
         } elseif ($route === 'notifikasi.produkakankadaluarsa') {
             // Jika route saat ini adalah 'produkhabis', tampilkan hanya produk yang habis stok
             return view('notifikasi.produkakankadaluarsa', [

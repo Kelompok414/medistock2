@@ -13,7 +13,7 @@ class Saleitem extends Model
 
     public $incrementing = false;
     protected $keyType = 'string';
-    protected $fillable = ['id', 'transaction_id', 'batch_id', 'quantity', 'price_per_unit'];
+    protected $fillable = ['id', 'transaction_id', 'batch_id', 'quantity', 'price_per_unit', 'subtotal'];
 
     public function batch()
     {
