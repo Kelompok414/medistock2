@@ -13,7 +13,7 @@ class Transaction extends Model
 
     public $incrementing = false;
     protected $keyType = 'string';
-    protected $fillable = ['id', 'user_id', 'total_price', 'transaction_date'];
+    protected $fillable = ['id', 'user_id', 'total_price','customer_name', 'transaction_date'];
     public $timestamps = true;
 
     protected $casts = [

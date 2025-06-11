@@ -19,11 +19,11 @@
             <div class="card shadow-sm border-0 mb-4">
                 <div class="card-body">
                     <div class="row mb-2">
-                        <div class="col-sm-3 text-muted">Transaction ID</div>
-                        <div class="col-sm-9">{{ $transaction->id }}</div>
+                        <div class="col-sm-3 text-muted">Pelanggan</div>
+                        <div class="col-sm-9">{{ $transaction->customer_name ?? 'N/A' }}</div>
                     </div>
                     <div class="row mb-2">
-                        <div class="col-sm-3 text-muted">User</div>
+                        <div class="col-sm-3 text-muted">Kasir</div>
                         <div class="col-sm-9">{{ $transaction->user->name ?? 'N/A' }}</div>
                     </div>
                     <div class="row mb-2">

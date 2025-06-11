@@ -6,6 +6,7 @@ use App\Models\Medicine;
 use App\Models\Category;
 use Illuminate\Http\Request;
 use App\Models\Batch;
+use Illuminate\Support\Facades\Auth;
 
 class MedicineController extends Controller
 {
@@ -14,6 +15,10 @@ class MedicineController extends Controller
      */
     public function index(Request $request)
     {
+        if (!Auth::check()) {
+            return redirect('/login')->with('error', 'Silakan login terlebih dahulu.');
+        }
+
         $search = $request->input('search');
         $sort = $request->input('sort', 'name');
         $direction = $request->input('direction', 'asc');
@@ -38,6 +43,10 @@ class MedicineController extends Controller
      */
     public function create()
     {
+        if (!Auth::check()) {
+            return redirect('/login')->with('error', 'Silakan login terlebih dahulu.');
+        }
+
         $categories = Category::all();
         return view('inventory.create', compact('categories'));
     }
@@ -47,6 +56,10 @@ class MedicineController extends Controller
      */
     public function store(Request $request)
     {
+        if (!Auth::check()) {
+            return redirect('/login')->with('error', 'Silakan login terlebih dahulu.');
+        }
+
         $request->validate([
             'name' => 'required|string|max:255',
             'category_id' => 'required|exists:categories,id',
@@ -65,6 +78,10 @@ class MedicineController extends Controller
      */
     public function edit(Medicine $medicine)
     {
+        if (!Auth::check()) {
+            return redirect('/login')->with('error', 'Silakan login terlebih dahulu.');
+        }
+
         $categories = Category::all();
         return view('inventory.edit', compact('medicine', 'categories'));
     }
@@ -74,6 +91,10 @@ class MedicineController extends Controller
      */
     public function update(Request $request, Medicine $medicine)
     {
+        if (!Auth::check()) {
+            return redirect('/login')->with('error', 'Silakan login terlebih dahulu.');
+        }
+
         $request->validate([
             'name' => 'required|string|max:255',
             'category_id' => 'required|exists:categories,id',
@@ -92,6 +113,10 @@ class MedicineController extends Controller
      */
     public function destroy($id)
     {
+        if (!Auth::check()) {
+            return redirect('/login')->with('error', 'Silakan login terlebih dahulu.');
+        }
+
         $medicine = Medicine::findOrFail($id);
         $medicine->delete();
 
@@ -99,6 +124,10 @@ class MedicineController extends Controller
     }
     public function detail(Request $request, $id)
     {
+        if (!Auth::check()) {
+            return redirect('/login')->with('error', 'Silakan login terlebih dahulu.');
+        }
+
         $medicine = Medicine::with('category')->where('id', $id)->first();
 
         // return response($medicine);

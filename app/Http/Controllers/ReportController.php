@@ -16,7 +16,9 @@ class ReportController extends Controller
 
     public function weekly(Request $request)
     {
-        $user = Auth::user();
+        if (!Auth::check()) {
+            return redirect('/login')->with('error', 'Silakan login terlebih dahulu.');
+        }
 
         // Ambil parameter week dari request, default ke minggu ke-1
         $week = $request->get('week', 1);
@@ -44,6 +46,10 @@ class ReportController extends Controller
 
     public function exportWeekly(Request $request)
     {
+        if (!Auth::check()) {
+            return redirect('/login')->with('error', 'Silakan login terlebih dahulu.');
+        }
+
         $week = $request->get('week', 1);
         $now = Carbon::now();
         $startOfMonth = $now->copy()->startOfMonth();
@@ -72,6 +78,10 @@ class ReportController extends Controller
 
     public function monthly(Request $request)
     {
+        if (!Auth::check()) {
+            return redirect('/login')->with('error', 'Silakan login terlebih dahulu.');
+        }
+
         // Ambil bulan dan tahun dari parameter (default: sekarang)
         $month = $request->get('month', now()->month);
         $year = $request->get('year', now()->year);
@@ -104,6 +114,10 @@ class ReportController extends Controller
 
     public function exportMonthly(Request $request)
     {
+        if (!Auth::check()) {
+            return redirect('/login')->with('error', 'Silakan login terlebih dahulu.');
+        }
+
         $month = $request->get('month', now()->month);
         $year = $request->get('year', now()->year);
 
@@ -135,6 +149,10 @@ class ReportController extends Controller
 
     public function annual(Request $request)
     {
+        if (!Auth::check()) {
+            return redirect('/login')->with('error', 'Silakan login terlebih dahulu.');
+        }
+
         $year = $request->get('year', now()->year);
         $allowedYears = range(2023, 2025); // Batasi tahun yang diperbolehkan
 
@@ -160,6 +178,10 @@ class ReportController extends Controller
 
     public function exportAnnual(Request $request)
     {
+        if (!Auth::check()) {
+            return redirect('/login')->with('error', 'Silakan login terlebih dahulu.');
+        }
+
         $year = $request->get('year', now()->year);
         $allowedYears = range(2023, 2025);
 

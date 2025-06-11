@@ -2,7 +2,7 @@
     <table class="min-w-full divide-y divide-gray-200">
         <thead class="bg-gray-50">
             <tr>
-                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">User</th>
+                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Nama Pelanggan</th>
 
                 <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider cursor-pointer"
                     data-sort-column="transaction_date" data-sort-dir="asc">
@@ -21,7 +21,7 @@
             @forelse ($transactions as $transaction)
             <tr class="hover:bg-gray-50 transition">
                 <td class="px-6 py-4 whitespace-nowrap">
-                    {{ $transaction->user->name ?? 'N/A' }}
+                    {{ $transaction->customer_name ?? 'N/A' }}
                 </td>
                 <td class="px-6 py-4">
                     <span class="inline-block bg-blue-100 text-blue-800 px-2 py-1 rounded text-xs">
@@ -36,7 +36,7 @@
                 <td class="px-6 py-4 text-center space-x-2">
                     <a href="{{ route('transactions.show', $transaction->id) }}"
                         class="inline-flex items-center gap-1 px-3 py-1 bg-sky-100 text-sky-700 rounded-md text-xs hover:bg-sky-200 transition">
-                        🔍 View
+                        🔍 Detail
                     </a>
                     <a href="{{ route('transactions.edit', $transaction->id) }}"
                         class="inline-flex items-center gap-1 px-3 py-1 bg-yellow-100 text-yellow-800 rounded-md text-xs hover:bg-yellow-200 transition">

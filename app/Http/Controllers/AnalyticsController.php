@@ -8,12 +8,17 @@ use App\Models\Saleitem;
 use App\Models\Medicine;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
 
 class AnalyticsController extends Controller
 {
     // Menampilkan halaman analytics
     public function index()
     {
+        if (!Auth::check()) {
+            return redirect('/login')->with('error', 'Silakan login terlebih dahulu.');
+        }
+
         // Mengambil 5 produk terlaris berdasarkan jumlah penjualan (quantity terbanyak)
         $topProducts = Saleitem::select('medicines.id', 'medicines.name', DB::raw('SUM(saleitems.quantity) as total_quantity'))
             ->join('batches', 'saleitems.batch_id', '=', 'batches.id')
@@ -47,6 +52,10 @@ class AnalyticsController extends Controller
     // Mengambil data tren penjualan berdasarkan rentang waktu: mingguan, bulanan, atau tahunan
     public function getTrend($range)
     {
+        if (!Auth::check()) {
+            return redirect('/login')->with('error', 'Silakan login terlebih dahulu.');
+        }
+
         $now = Carbon::now(); // waktu saat ini
         $data = [];
 
@@ -66,7 +75,7 @@ class AnalyticsController extends Controller
                 ];
             }
 
-        // Jika rentang bulanan, ambil total penjualan setiap bulan dalam 1 tahun
+            // Jika rentang bulanan, ambil total penjualan setiap bulan dalam 1 tahun
         } elseif ($range === 'bulanan') {
             for ($i = 1; $i <= 12; $i++) {
                 $start = Carbon::create($now->year, $i, 1)->startOfMonth();
@@ -81,7 +90,7 @@ class AnalyticsController extends Controller
                 ];
             }
 
-        // Jika rentang tahunan, ambil total penjualan per tahun selama 3 tahun terakhir
+            // Jika rentang tahunan, ambil total penjualan per tahun selama 3 tahun terakhir
         } elseif ($range === 'tahunan') {
             for ($i = 0; $i < 3; $i++) {
                 $year = $now->year - $i;

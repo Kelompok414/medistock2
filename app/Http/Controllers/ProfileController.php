@@ -17,7 +17,6 @@ class ProfileController extends Controller
     {
         $user = Auth::user();
 
-        
         $profile = Tampilan::firstOrCreate(
             ['user_id' => $user->id],
             [
@@ -34,6 +33,10 @@ class ProfileController extends Controller
 
     public function update(ProfileUpdateRequest $request): RedirectResponse
     {
+        if (!Auth::check()) {
+            return redirect('/login')->with('error', 'Silakan login terlebih dahulu.');
+        }
+
         $user = $request->user();
 
         $user->fill($request->validated());
@@ -49,6 +52,10 @@ class ProfileController extends Controller
 
     public function destroy(Request $request): RedirectResponse
     {
+        if (!Auth::check()) {
+            return redirect('/login')->with('error', 'Silakan login terlebih dahulu.');
+        }
+
         $request->validateWithBag('userDeletion', [
             'password' => ['required', 'current_password'],
         ]);
