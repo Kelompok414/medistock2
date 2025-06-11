@@ -47,7 +47,7 @@ class DashboardController extends Controller
             ->count();
         
         // Menghitung obat dengan stok menipis (di bawah 30)
-        $stokMenipis = Batch::where('quantity', '<', 30)
+        $stokMenipis = Batch::where('quantity', '<', 10)
             ->where('quantity', '>', 0)
             ->count();
         
@@ -144,7 +144,7 @@ class DashboardController extends Controller
     public function expiringMedications()
     {
         // Cek apakah session user sudah ada
-        if (!session()->has('user_id')) {
+        if (!Auth::check()) {
             return redirect('/login')->with('error', 'Silakan login terlebih dahulu.');
         }
         

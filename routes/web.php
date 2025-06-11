@@ -8,8 +8,8 @@ use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\TransactionController;
 use App\Http\Controllers\ReportController;
 use App\Http\Controllers\AnalyticsController;
-use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\MedicineController;
+use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\ReportCashierController;
 use App\Http\Controllers\SettingController;
 use App\Http\Controllers\ProfileController;
@@ -78,6 +78,7 @@ Route::get('reports/annual/export', [ReportController::class, 'exportAnnual'])->
 Route::get('/analytics', [AnalyticsController::class, 'index'])->name('analytics.index');
 Route::get('/analytics/trend/{range}', [AnalyticsController::class, 'getTrend']);
 
+Route::get('/obat-menipis', [MedicineController::class, 'lowStock'])->name('medicines.low-stock');
 // reports kasir
 Route::get('/reports-cashier/weekly', [ReportCashierController::class, 'weekly'])->name('reports-cashier.weekly');
 Route::get('/reports-cashier/monthly', [ReportCashierController::class, 'monthly'])->name('reports-cashier.monthly');
